@@ -34,10 +34,14 @@ interface LastSummaryResponse {
   template: `
     <main class="text-slate-100">
       <section class="flex flex-col gap-5">
-        <div class="flex items-center justify-between rounded-xl border border-slate-800 bg-slate-900/70 px-4 py-3">
+        <div
+          class="flex items-center justify-between rounded-xl border border-slate-800 bg-slate-900/70 px-4 py-3"
+        >
           <div>
             <h1 class="text-2xl font-bold">Resumo de Fim de Temporada</h1>
-            <p class="text-xs text-slate-400">Principais eventos da temporada: evolução, base, contratos e divisões.</p>
+            <p class="text-xs text-slate-400">
+              Principais eventos da temporada: evolução, base, contratos e divisões.
+            </p>
           </div>
         </div>
 
@@ -78,7 +82,10 @@ interface LastSummaryResponse {
                 }
                 <div class="flex flex-wrap gap-1">
                   @for (club of summary()?.promotionRelegation?.promoted ?? []; track club) {
-                    <span class="animate-pulse rounded bg-emerald-500/20 px-2 py-0.5 text-xs text-emerald-200">{{ club }}</span>
+                    <span
+                      class="animate-pulse rounded bg-emerald-500/20 px-2 py-0.5 text-xs text-emerald-200"
+                      >{{ club }}</span
+                    >
                   }
                 </div>
               </div>
@@ -89,7 +96,10 @@ interface LastSummaryResponse {
                 }
                 <div class="flex flex-wrap gap-1">
                   @for (club of summary()?.promotionRelegation?.relegated ?? []; track club) {
-                    <span class="animate-pulse rounded bg-rose-500/20 px-2 py-0.5 text-xs text-rose-200">{{ club }}</span>
+                    <span
+                      class="animate-pulse rounded bg-rose-500/20 px-2 py-0.5 text-xs text-rose-200"
+                      >{{ club }}</span
+                    >
                   }
                 </div>
               </div>
@@ -116,7 +126,10 @@ interface LastSummaryResponse {
               }
               <div class="space-y-1 text-sm">
                 @for (item of summary()?.youthRevealed ?? []; track item.name) {
-                  <p>{{ item.name }} — {{ item.position }} (OVR {{ item.overall }} / POT {{ item.potential }})</p>
+                  <p>
+                    {{ item.name }} — {{ item.position }} (OVR {{ item.overall }} / POT
+                    {{ item.potential }})
+                  </p>
                 }
               </div>
             </div>

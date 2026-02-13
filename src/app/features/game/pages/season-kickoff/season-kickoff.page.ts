@@ -37,7 +37,9 @@ interface SaveCompetition {
       <section class="mx-auto flex w-full max-w-5xl flex-col gap-5">
         <div class="flex items-center justify-between">
           <h1 class="text-2xl font-bold">Início da Nova Temporada</h1>
-          <a routerLink="/dashboard" class="text-sm text-emerald-300 hover:text-emerald-200">Dashboard</a>
+          <a routerLink="/dashboard" class="text-sm text-emerald-300 hover:text-emerald-200"
+            >Dashboard</a
+          >
         </div>
 
         @if (save()) {
@@ -45,12 +47,15 @@ interface SaveCompetition {
             <p class="text-sm text-slate-400">Save</p>
             <h2 class="text-xl font-semibold">{{ save()?.name }}</h2>
             <p class="mt-1 text-sm">
-              Temporada <span class="font-semibold text-emerald-300">{{ save()?.currentSeasonYear }}</span>
-              • Data atual {{ save()?.currentDate }}
+              Temporada
+              <span class="font-semibold text-emerald-300">{{ save()?.currentSeasonYear }}</span> •
+              Data atual {{ save()?.currentDate }}
             </p>
             @if (save()?.club) {
               <p class="mt-2 text-sm text-slate-300">
-                Clube: {{ save()?.club?.name }} • {{ save()?.club?.league?.name }} ({{ save()?.club?.league?.country?.name }})
+                Clube: {{ save()?.club?.name }} • {{ save()?.club?.league?.name }} ({{
+                  save()?.club?.league?.country?.name
+                }})
               </p>
             }
           </div>
@@ -63,7 +68,8 @@ interface SaveCompetition {
               <div class="rounded bg-slate-950 px-3 py-2 text-sm">
                 <p class="font-semibold">{{ item.competitionName }}</p>
                 <p class="text-xs text-slate-400">
-                  Rodada {{ item.currentRound }}/{{ item.totalRounds }} • {{ item.status === 'ongoing' ? 'Em andamento' : 'Finalizada' }}
+                  Rodada {{ item.currentRound }}/{{ item.totalRounds }} •
+                  {{ item.status === 'ongoing' ? 'Em andamento' : 'Finalizada' }}
                 </p>
               </div>
             }
@@ -71,10 +77,26 @@ interface SaveCompetition {
         </div>
 
         <div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-          <a routerLink="/competitions" class="rounded border border-slate-700 bg-slate-900 px-4 py-3 text-sm font-semibold hover:border-emerald-400">Ver Competições</a>
-          <a routerLink="/season-summary" class="rounded border border-slate-700 bg-slate-900 px-4 py-3 text-sm font-semibold hover:border-emerald-400">Ver Resumo</a>
-          <a routerLink="/contracts" class="rounded border border-slate-700 bg-slate-900 px-4 py-3 text-sm font-semibold hover:border-emerald-400">Renovar Contratos</a>
-          <a routerLink="/youth-academy" class="rounded border border-slate-700 bg-slate-900 px-4 py-3 text-sm font-semibold hover:border-emerald-400">Categorias de Base</a>
+          <a
+            routerLink="/competitions"
+            class="rounded border border-slate-700 bg-slate-900 px-4 py-3 text-sm font-semibold hover:border-emerald-400"
+            >Ver Competições</a
+          >
+          <a
+            routerLink="/season-summary"
+            class="rounded border border-slate-700 bg-slate-900 px-4 py-3 text-sm font-semibold hover:border-emerald-400"
+            >Ver Resumo</a
+          >
+          <a
+            routerLink="/contracts"
+            class="rounded border border-slate-700 bg-slate-900 px-4 py-3 text-sm font-semibold hover:border-emerald-400"
+            >Renovar Contratos</a
+          >
+          <a
+            routerLink="/youth-academy"
+            class="rounded border border-slate-700 bg-slate-900 px-4 py-3 text-sm font-semibold hover:border-emerald-400"
+            >Categorias de Base</a
+          >
         </div>
       </section>
     </main>

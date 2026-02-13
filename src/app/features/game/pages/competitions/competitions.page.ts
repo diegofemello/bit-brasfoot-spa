@@ -108,7 +108,9 @@ interface AdvanceToNextMatchResponse {
   template: `
     <main class="text-slate-100">
       <section class="flex flex-col gap-6">
-        <div class="flex items-center justify-between rounded-xl border border-slate-800 bg-slate-900/70 px-4 py-3">
+        <div
+          class="flex items-center justify-between rounded-xl border border-slate-800 bg-slate-900/70 px-4 py-3"
+        >
           <div>
             <h1 class="text-2xl font-bold">Competições</h1>
             <p class="text-xs text-slate-400">Calendário, tabela, rodadas e avanço da temporada.</p>
@@ -116,7 +118,11 @@ interface AdvanceToNextMatchResponse {
         </div>
 
         @if (feedback()) {
-          <p class="text-sm" [class.text-emerald-300]="!feedbackError()" [class.text-rose-300]="feedbackError()">
+          <p
+            class="text-sm"
+            [class.text-emerald-300]="!feedbackError()"
+            [class.text-rose-300]="feedbackError()"
+          >
             {{ feedback() }}
           </p>
         }
@@ -177,7 +183,9 @@ interface AdvanceToNextMatchResponse {
               >
                 <p class="font-semibold">{{ competition.competitionName }}</p>
                 <p class="text-xs text-slate-400">
-                  Temporada {{ competition.seasonYear }} • Rodada {{ competition.currentRound }}/{{ competition.totalRounds }}
+                  Temporada {{ competition.seasonYear }} • Rodada {{ competition.currentRound }}/{{
+                    competition.totalRounds
+                  }}
                 </p>
               </button>
             }
@@ -210,7 +218,11 @@ interface AdvanceToNextMatchResponse {
                     </thead>
                     <tbody>
                       @for (item of standings(); track item.id) {
-                        <tr class="odd:bg-slate-950/60" [class.bg-emerald-500/10]="item.position <= 4" [class.bg-rose-500/10]="item.position > standings().length - 2">
+                        <tr
+                          class="odd:bg-slate-950/60"
+                          [class.bg-emerald-500/10]="item.position <= 4"
+                          [class.bg-rose-500/10]="item.position > standings().length - 2"
+                        >
                           <td class="px-2 py-2">{{ item.position }}</td>
                           <td class="px-2 py-2">{{ item.club.name }}</td>
                           <td class="px-2 py-2 font-semibold">{{ item.points }}</td>
@@ -233,7 +245,9 @@ interface AdvanceToNextMatchResponse {
                 <div class="grid gap-4 sm:grid-cols-2">
                   @for (group of groupStandings(); track group.groupName) {
                     <div class="rounded border border-slate-800 bg-slate-950 p-3">
-                      <p class="mb-2 text-sm font-semibold text-emerald-300">{{ group.groupName }}</p>
+                      <p class="mb-2 text-sm font-semibold text-emerald-300">
+                        {{ group.groupName }}
+                      </p>
                       <table class="w-full border-collapse text-xs">
                         <thead class="text-left text-slate-400">
                           <tr>
@@ -281,7 +295,11 @@ interface AdvanceToNextMatchResponse {
                 <button
                   type="button"
                   (click)="simulateCurrentRound()"
-                  [disabled]="simulatingRound() || !selectedCompetition() || selectedCompetition()?.status === 'finished'"
+                  [disabled]="
+                    simulatingRound() ||
+                    !selectedCompetition() ||
+                    selectedCompetition()?.status === 'finished'
+                  "
                   class="rounded bg-emerald-500 px-3 py-1 text-sm font-semibold text-slate-950 hover:bg-emerald-400 disabled:cursor-not-allowed disabled:opacity-60"
                 >
                   Simular rodada
@@ -300,20 +318,38 @@ interface AdvanceToNextMatchResponse {
 
             <div class="grid gap-2">
               @for (fixture of fixtures(); track fixture.id) {
-                <div class="flex items-center justify-between rounded bg-slate-950 px-3 py-2 text-sm">
+                <div
+                  class="flex items-center justify-between rounded bg-slate-950 px-3 py-2 text-sm"
+                >
                   <div class="text-xs text-slate-400">{{ fixture.matchDate }}</div>
-                  <div class="font-semibold">{{ fixture.homeClub.name }} x {{ fixture.awayClub.name }}</div>
+                  <div class="font-semibold">
+                    {{ fixture.homeClub.name }} x {{ fixture.awayClub.name }}
+                  </div>
                   <div class="flex items-center gap-3">
                     @if (fixture.status === 'scheduled') {
-                      <a [routerLink]="['/pre-match', fixture.id]" class="text-xs text-sky-300 hover:text-sky-200">
+                      <a
+                        [routerLink]="['/pre-match', fixture.id]"
+                        class="text-xs text-sky-300 hover:text-sky-200"
+                      >
                         Pré-jogo
                       </a>
                     }
-                    <a [routerLink]="['/match-day', fixture.id]" class="text-xs text-emerald-300 hover:text-emerald-200">
+                    <a
+                      [routerLink]="['/match-day', fixture.id]"
+                      class="text-xs text-emerald-300 hover:text-emerald-200"
+                    >
                       Dia de jogo
                     </a>
-                    <div class="text-xs" [class.text-slate-400]="fixture.status === 'scheduled'" [class.text-emerald-300]="fixture.status === 'played'">
-                      {{ fixture.status === 'scheduled' ? 'Agendado' : (fixture.homeScore + ' x ' + fixture.awayScore) }}
+                    <div
+                      class="text-xs"
+                      [class.text-slate-400]="fixture.status === 'scheduled'"
+                      [class.text-emerald-300]="fixture.status === 'played'"
+                    >
+                      {{
+                        fixture.status === 'scheduled'
+                          ? 'Agendado'
+                          : fixture.homeScore + ' x ' + fixture.awayScore
+                      }}
                     </div>
                   </div>
                 </div>
@@ -327,10 +363,14 @@ interface AdvanceToNextMatchResponse {
               <div class="grid gap-3">
                 @for (stage of knockoutStages(); track stage.round) {
                   <div class="rounded border border-slate-800 bg-slate-950 p-3">
-                    <p class="mb-2 text-sm font-semibold text-emerald-300">{{ formatKnockoutRound(stage.round) }}</p>
+                    <p class="mb-2 text-sm font-semibold text-emerald-300">
+                      {{ formatKnockoutRound(stage.round) }}
+                    </p>
                     <div class="grid gap-2">
                       @for (match of stage.matches; track match.id) {
-                        <div class="flex items-center justify-between rounded bg-slate-900 px-3 py-2 text-sm">
+                        <div
+                          class="flex items-center justify-between rounded bg-slate-900 px-3 py-2 text-sm"
+                        >
                           <span>{{ match.homeClub.name }} x {{ match.awayClub.name }}</span>
                           <span class="text-xs text-slate-400">{{ match.matchDate }}</span>
                         </div>
@@ -368,8 +408,10 @@ export class CompetitionsPage {
   readonly feedback = signal<string | null>(null);
   readonly feedbackError = signal(false);
 
-  readonly selectedCompetition = computed(() =>
-    this.competitions().find((competition) => competition.seasonId === this.selectedSeasonId()) ?? null,
+  readonly selectedCompetition = computed(
+    () =>
+      this.competitions().find((competition) => competition.seasonId === this.selectedSeasonId()) ??
+      null,
   );
 
   ngOnInit() {
@@ -391,7 +433,7 @@ export class CompetitionsPage {
         const selectedSeasonId =
           preferredSeasonId && competitions.some((item) => item.seasonId === preferredSeasonId)
             ? preferredSeasonId
-            : competitions[0]?.seasonId ?? null;
+            : (competitions[0]?.seasonId ?? null);
 
         this.selectedSeasonId.set(selectedSeasonId);
         if (selectedSeasonId) {
@@ -476,17 +518,19 @@ export class CompetitionsPage {
     if (!saveGameId) return;
 
     this.advancingDay.set(true);
-    this.apiService.post<AdvanceDayResponse>(`seasons/save/${saveGameId}/advance-day`, {}).subscribe({
-      next: (response) => {
-        this.setFeedback(`Data avançada para ${response.currentDate}.`, false);
-        this.loadCompetitions(this.selectedSeasonId() ?? undefined);
-        this.advancingDay.set(false);
-      },
-      error: (err) => {
-        this.setFeedback(this.extractErrorMessage(err, 'Falha ao avançar dia.'), true);
-        this.advancingDay.set(false);
-      },
-    });
+    this.apiService
+      .post<AdvanceDayResponse>(`seasons/save/${saveGameId}/advance-day`, {})
+      .subscribe({
+        next: (response) => {
+          this.setFeedback(`Data avançada para ${response.currentDate}.`, false);
+          this.loadCompetitions(this.selectedSeasonId() ?? undefined);
+          this.advancingDay.set(false);
+        },
+        error: (err) => {
+          this.setFeedback(this.extractErrorMessage(err, 'Falha ao avançar dia.'), true);
+          this.advancingDay.set(false);
+        },
+      });
   }
 
   advanceToNextMatch() {
@@ -506,11 +550,16 @@ export class CompetitionsPage {
           } else {
             this.setFeedback(response.message ?? 'Não há próximo jogo agendado.', false);
           }
-          this.loadCompetitions(response.nextFixture?.seasonId ?? this.selectedSeasonId() ?? undefined);
+          this.loadCompetitions(
+            response.nextFixture?.seasonId ?? this.selectedSeasonId() ?? undefined,
+          );
           this.advancingDay.set(false);
         },
         error: (err) => {
-          this.setFeedback(this.extractErrorMessage(err, 'Falha ao avançar até o próximo jogo.'), true);
+          this.setFeedback(
+            this.extractErrorMessage(err, 'Falha ao avançar até o próximo jogo.'),
+            true,
+          );
           this.advancingDay.set(false);
         },
       });
@@ -554,10 +603,12 @@ export class CompetitionsPage {
   }
 
   private loadGroupStandings(seasonId: string) {
-    this.apiService.get<GroupStanding[]>(`competitions/seasons/${seasonId}/group-standings`).subscribe({
-      next: (groups) => this.groupStandings.set(groups),
-      error: () => this.setFeedback('Falha ao carregar fase de grupos.', true),
-    });
+    this.apiService
+      .get<GroupStanding[]>(`competitions/seasons/${seasonId}/group-standings`)
+      .subscribe({
+        next: (groups) => this.groupStandings.set(groups),
+        error: () => this.setFeedback('Falha ao carregar fase de grupos.', true),
+      });
   }
 
   private loadKnockout(seasonId: string) {
@@ -612,7 +663,8 @@ export class CompetitionsPage {
   }
 
   private extractErrorMessage(err: unknown, fallback: string) {
-    const message = (err as { error?: { error?: { message?: string | string[] } } })?.error?.error?.message;
+    const message = (err as { error?: { error?: { message?: string | string[] } } })?.error?.error
+      ?.message;
     if (Array.isArray(message) && message.length > 0) {
       return message[0];
     }

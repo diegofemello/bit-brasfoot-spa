@@ -39,7 +39,9 @@ type FormationPreset = {
   template: `
     <main class="text-slate-100">
       <section class="flex flex-col gap-6">
-        <div class="flex items-center justify-between rounded-xl border border-slate-800 bg-slate-900/70 px-4 py-3">
+        <div
+          class="flex items-center justify-between rounded-xl border border-slate-800 bg-slate-900/70 px-4 py-3"
+        >
           <div>
             <h1 class="text-2xl font-bold">Editor de Táticas</h1>
             <p class="text-xs text-slate-400">Monte seu onze ideal e ajuste instruções do time.</p>
@@ -48,7 +50,9 @@ type FormationPreset = {
 
         <div class="grid gap-4 xl:grid-cols-[320px,1fr]">
           <aside class="rounded-xl border border-slate-800 bg-slate-900 p-4">
-            <h2 class="mb-3 text-sm font-semibold uppercase tracking-wide text-slate-300">Configuração</h2>
+            <h2 class="mb-3 text-sm font-semibold uppercase tracking-wide text-slate-300">
+              Configuração
+            </h2>
 
             <label class="mb-1 block text-xs text-slate-400">Formação</label>
             <select
@@ -126,7 +130,11 @@ type FormationPreset = {
             }
 
             @if (message()) {
-              <p class="mt-3 rounded-lg border border-emerald-500/30 bg-emerald-500/10 px-3 py-2 text-xs text-emerald-300">{{ message() }}</p>
+              <p
+                class="mt-3 rounded-lg border border-emerald-500/30 bg-emerald-500/10 px-3 py-2 text-xs text-emerald-300"
+              >
+                {{ message() }}
+              </p>
             }
           </aside>
 
@@ -134,10 +142,18 @@ type FormationPreset = {
             <section class="rounded-xl border border-slate-800 bg-slate-900 p-4">
               <p class="mb-3 text-sm text-slate-300">Campo (arraste jogadores para posições)</p>
 
-              <div class="relative overflow-hidden rounded-xl border border-emerald-600/40 bg-gradient-to-b from-emerald-900/50 to-emerald-950/60 p-4">
-                <div class="pointer-events-none absolute inset-4 rounded-lg border border-white/15"></div>
-                <div class="pointer-events-none absolute left-4 right-4 top-1/2 h-px -translate-y-1/2 bg-white/15"></div>
-                <div class="pointer-events-none absolute left-1/2 top-1/2 h-20 w-20 -translate-x-1/2 -translate-y-1/2 rounded-full border border-white/15"></div>
+              <div
+                class="relative overflow-hidden rounded-xl border border-emerald-600/40 bg-gradient-to-b from-emerald-900/50 to-emerald-950/60 p-4"
+              >
+                <div
+                  class="pointer-events-none absolute inset-4 rounded-lg border border-white/15"
+                ></div>
+                <div
+                  class="pointer-events-none absolute left-4 right-4 top-1/2 h-px -translate-y-1/2 bg-white/15"
+                ></div>
+                <div
+                  class="pointer-events-none absolute left-1/2 top-1/2 h-20 w-20 -translate-x-1/2 -translate-y-1/2 rounded-full border border-white/15"
+                ></div>
 
                 <div class="relative z-10 space-y-2">
                   @for (row of currentFormationRows(); track $index) {
@@ -148,7 +164,9 @@ type FormationPreset = {
                           (dragover)="allowDrop($event)"
                           (drop)="dropOnSlot(slot.key, $event)"
                         >
-                          <p class="text-[10px] uppercase tracking-wide text-slate-400">{{ slot.label }}</p>
+                          <p class="text-[10px] uppercase tracking-wide text-slate-400">
+                            {{ slot.label }}
+                          </p>
 
                           @if (lineup()[slot.key]) {
                             <div
@@ -159,7 +177,9 @@ type FormationPreset = {
                               <p class="font-semibold text-slate-100">{{ lineup()[slot.key] }}</p>
                             </div>
                           } @else {
-                            <div class="mt-2 rounded-md border border-dashed border-slate-700 px-2 py-2 text-[11px] text-slate-500">
+                            <div
+                              class="mt-2 rounded-md border border-dashed border-slate-700 px-2 py-2 text-[11px] text-slate-500"
+                            >
                               Solte um jogador aqui
                             </div>
                           }
@@ -190,12 +210,16 @@ type FormationPreset = {
                       (dragstart)="dragFromBench(player.name, $event)"
                     >
                       <div class="mb-1 flex items-center gap-2">
-                        <span class="inline-flex h-5 w-5 items-center justify-center rounded bg-slate-800 text-[10px] font-bold text-slate-300">
+                        <span
+                          class="inline-flex h-5 w-5 items-center justify-center rounded bg-slate-800 text-[10px] font-bold text-slate-300"
+                        >
                           {{ player.position }}
                         </span>
                         <p class="truncate font-semibold text-slate-100">{{ player.name }}</p>
                       </div>
-                      <p class="text-[10px] text-slate-400">{{ positionLabel(player.position) }} • OVR {{ player.overall }}</p>
+                      <p class="text-[10px] text-slate-400">
+                        {{ positionLabel(player.position) }} • OVR {{ player.overall }}
+                      </p>
                     </div>
                   }
                 </div>
@@ -313,8 +337,8 @@ export class TacticsPage {
     },
   };
 
-  readonly currentFormationRows = computed(() =>
-    this.formationPresets[this.formation()]?.rows ?? this.formationPresets['4-3-3'].rows,
+  readonly currentFormationRows = computed(
+    () => this.formationPresets[this.formation()]?.rows ?? this.formationPresets['4-3-3'].rows,
   );
 
   readonly currentSlotKeys = computed(() =>

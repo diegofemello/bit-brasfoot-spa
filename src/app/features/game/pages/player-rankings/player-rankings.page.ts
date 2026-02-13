@@ -27,10 +27,14 @@ interface RankingsResponse {
   template: `
     <main class="text-slate-100">
       <section class="flex flex-col gap-5">
-        <div class="flex items-center justify-between rounded-xl border border-slate-800 bg-slate-900/70 px-4 py-3">
+        <div
+          class="flex items-center justify-between rounded-xl border border-slate-800 bg-slate-900/70 px-4 py-3"
+        >
           <div>
             <h1 class="text-2xl font-bold">Rankings Globais</h1>
-            <p class="text-xs text-slate-400">Top jogadores por overall, potencial e valor de mercado.</p>
+            <p class="text-xs text-slate-400">
+              Top jogadores por overall, potencial e valor de mercado.
+            </p>
           </div>
         </div>
 
@@ -53,7 +57,9 @@ interface RankingsResponse {
               @for (item of rankings()?.rankings?.byPotential ?? []; track item.name) {
                 <div class="rounded bg-slate-950 px-3 py-2">
                   <p class="font-semibold">{{ item.position }}º {{ item.name }}</p>
-                  <p class="text-xs text-slate-400">{{ item.clubName }} • POT {{ item.potential }}</p>
+                  <p class="text-xs text-slate-400">
+                    {{ item.clubName }} • POT {{ item.potential }}
+                  </p>
                 </div>
               }
             </div>
@@ -65,7 +71,9 @@ interface RankingsResponse {
               @for (item of rankings()?.rankings?.byMarketValue ?? []; track item.name) {
                 <div class="rounded bg-slate-950 px-3 py-2">
                   <p class="font-semibold">{{ item.position }}º {{ item.name }}</p>
-                  <p class="text-xs text-slate-400">{{ item.clubName }} • {{ formatCurrency(item.value) }}</p>
+                  <p class="text-xs text-slate-400">
+                    {{ item.clubName }} • {{ formatCurrency(item.value) }}
+                  </p>
                 </div>
               }
             </div>

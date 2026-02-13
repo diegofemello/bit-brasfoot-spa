@@ -17,10 +17,14 @@ interface InfrastructureState {
   template: `
     <main class="text-slate-100">
       <section class="flex flex-col gap-5">
-        <div class="flex items-center justify-between rounded-xl border border-slate-800 bg-slate-900/70 px-4 py-3">
+        <div
+          class="flex items-center justify-between rounded-xl border border-slate-800 bg-slate-900/70 px-4 py-3"
+        >
           <div>
             <h1 class="text-2xl font-bold">Infraestrutura</h1>
-            <p class="text-xs text-slate-400">Evolua treino, base, médico e estádio para fortalecer o projeto esportivo.</p>
+            <p class="text-xs text-slate-400">
+              Evolua treino, base, médico e estádio para fortalecer o projeto esportivo.
+            </p>
           </div>
         </div>
 
@@ -77,13 +81,17 @@ interface InfrastructureState {
         }
 
         @if (message()) {
-          <div class="rounded-lg border border-emerald-400/30 bg-emerald-500/10 px-3 py-2 text-sm text-emerald-200">
+          <div
+            class="rounded-lg border border-emerald-400/30 bg-emerald-500/10 px-3 py-2 text-sm text-emerald-200"
+          >
             {{ message() }}
           </div>
         }
 
         @if (error()) {
-          <div class="rounded-lg border border-rose-400/30 bg-rose-500/10 px-3 py-2 text-sm text-rose-200">
+          <div
+            class="rounded-lg border border-rose-400/30 bg-rose-500/10 px-3 py-2 text-sm text-rose-200"
+          >
             {{ error() }}
           </div>
         }
@@ -145,8 +153,9 @@ export class InfrastructurePage {
   }
 
   private extractErrorMessage(err: unknown, fallback: string) {
-    const response = (err as { error?: { message?: string | string[]; error?: { message?: string | string[] } } })
-      ?.error;
+    const response = (
+      err as { error?: { message?: string | string[]; error?: { message?: string | string[] } } }
+    )?.error;
     const candidates = [response?.message, response?.error?.message];
 
     for (const candidate of candidates) {

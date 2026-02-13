@@ -23,10 +23,14 @@ interface Player {
   template: `
     <main class="text-slate-100">
       <section class="flex flex-col gap-5">
-        <div class="flex items-center justify-between rounded-xl border border-slate-800 bg-slate-900/70 px-4 py-3">
+        <div
+          class="flex items-center justify-between rounded-xl border border-slate-800 bg-slate-900/70 px-4 py-3"
+        >
           <div>
             <h1 class="text-2xl font-bold">Elenco</h1>
-            <p class="text-xs text-slate-400">Gerencie jogadores, filtre por posição e analise o nível médio do grupo.</p>
+            <p class="text-xs text-slate-400">
+              Gerencie jogadores, filtre por posição e analise o nível médio do grupo.
+            </p>
           </div>
         </div>
 
@@ -81,10 +85,7 @@ interface Player {
             </thead>
             <tbody class="divide-y divide-slate-800">
               @for (player of players(); track player.id) {
-                <tr
-                  class="cursor-pointer hover:bg-slate-800/40"
-                  (click)="openPlayer(player.id)"
-                >
+                <tr class="cursor-pointer hover:bg-slate-800/40" (click)="openPlayer(player.id)">
                   <td class="px-3 py-2 text-sm">{{ player.name }}</td>
                   <td class="px-3 py-2 text-sm">{{ player.position }}</td>
                   <td class="px-3 py-2 text-sm">{{ player.age }}</td>

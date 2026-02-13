@@ -20,10 +20,14 @@ interface ChampionsHistoryResponse {
   template: `
     <main class="text-slate-100">
       <section class="flex flex-col gap-5">
-        <div class="flex items-center justify-between rounded-xl border border-slate-800 bg-slate-900/70 px-4 py-3">
+        <div
+          class="flex items-center justify-between rounded-xl border border-slate-800 bg-slate-900/70 px-4 py-3"
+        >
           <div>
             <h1 class="text-2xl font-bold">Histórico de Campeões</h1>
-            <p class="text-xs text-slate-400">Campeões por competição e ranking de títulos no save.</p>
+            <p class="text-xs text-slate-400">
+              Campeões por competição e ranking de títulos no save.
+            </p>
           </div>
         </div>
 
@@ -31,10 +35,15 @@ interface ChampionsHistoryResponse {
           <article class="rounded-xl border border-slate-800 bg-slate-900 p-4">
             <h2 class="mb-3 text-sm font-semibold uppercase text-slate-300">Campeões</h2>
             <div class="space-y-2 text-sm">
-              @for (item of data()?.champions ?? []; track item.seasonYear + '-' + item.competitionName) {
+              @for (
+                item of data()?.champions ?? [];
+                track item.seasonYear + '-' + item.competitionName
+              ) {
                 <div class="rounded bg-slate-950 px-3 py-2">
                   <p class="font-semibold">{{ item.seasonYear }} • {{ item.competitionName }}</p>
-                  <p class="text-xs text-slate-400">{{ item.championClubName }} • {{ item.source === 'table' ? 'Tabela' : 'Final' }}</p>
+                  <p class="text-xs text-slate-400">
+                    {{ item.championClubName }} • {{ item.source === 'table' ? 'Tabela' : 'Final' }}
+                  </p>
                 </div>
               }
             </div>

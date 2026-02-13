@@ -2,7 +2,10 @@ import { CommonModule } from '@angular/common';
 import { Component, effect, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ApiService } from '../../../../core/services/api.service';
-import { LiveTactic, MatchLiveSocketService } from '../../../../core/services/match-live-socket.service';
+import {
+  LiveTactic,
+  MatchLiveSocketService,
+} from '../../../../core/services/match-live-socket.service';
 
 interface Fixture {
   id: string;
@@ -70,18 +73,34 @@ type PlayPhase = 'neutral' | 'attack-home' | 'attack-away' | 'set-piece' | 'goal
         }
 
         @if (message()) {
-          <p class="text-sm" [class.text-rose-300]="isError()" [class.text-emerald-300]="!isError()">{{ message() }}</p>
+          <p
+            class="text-sm"
+            [class.text-rose-300]="isError()"
+            [class.text-emerald-300]="!isError()"
+          >
+            {{ message() }}
+          </p>
         }
 
         @if (detail()) {
           <div class="rounded-lg border border-slate-800 bg-slate-900 p-4">
             <h3 class="mb-3 text-lg font-semibold">Partida ao vivo — Animação 2D</h3>
             <div class="rounded border border-slate-800 bg-emerald-950/20 p-3">
-              <div class="relative h-48 overflow-hidden rounded border border-emerald-700/40 bg-emerald-900/20">
-                <div class="absolute left-1/2 top-0 h-full w-px -translate-x-1/2 bg-emerald-400/40"></div>
-                <div class="absolute left-6 top-1/2 h-16 w-8 -translate-y-1/2 border border-emerald-400/50"></div>
-                <div class="absolute right-6 top-1/2 h-16 w-8 -translate-y-1/2 border border-emerald-400/50"></div>
-                <div class="absolute left-1/2 top-1/2 h-16 w-16 -translate-x-1/2 -translate-y-1/2 rounded-full border border-emerald-400/40"></div>
+              <div
+                class="relative h-48 overflow-hidden rounded border border-emerald-700/40 bg-emerald-900/20"
+              >
+                <div
+                  class="absolute left-1/2 top-0 h-full w-px -translate-x-1/2 bg-emerald-400/40"
+                ></div>
+                <div
+                  class="absolute left-6 top-1/2 h-16 w-8 -translate-y-1/2 border border-emerald-400/50"
+                ></div>
+                <div
+                  class="absolute right-6 top-1/2 h-16 w-8 -translate-y-1/2 border border-emerald-400/50"
+                ></div>
+                <div
+                  class="absolute left-1/2 top-1/2 h-16 w-16 -translate-x-1/2 -translate-y-1/2 rounded-full border border-emerald-400/40"
+                ></div>
 
                 @for (marker of homeMarkers(); track $index) {
                   <div
@@ -172,7 +191,9 @@ type PlayPhase = 'neutral' | 'attack-home' | 'attack-away' | 'set-piece' | 'goal
                   </div>
                 </div>
               } @else {
-                <p class="mt-3 text-xs text-slate-400">Partida finalizada — visualização somente leitura.</p>
+                <p class="mt-3 text-xs text-slate-400">
+                  Partida finalizada — visualização somente leitura.
+                </p>
               }
             </div>
           </div>
@@ -180,12 +201,17 @@ type PlayPhase = 'neutral' | 'attack-home' | 'attack-away' | 'set-piece' | 'goal
           <div class="grid gap-5 lg:grid-cols-3">
             <div class="rounded-lg border border-slate-800 bg-slate-900 p-4 lg:col-span-2">
               <h3 class="mb-3 text-lg font-semibold">Partida ao vivo (texto)</h3>
-              <div id="live-timeline" class="max-h-[420px] space-y-2 overflow-y-auto rounded bg-slate-950 p-3">
+              <div
+                id="live-timeline"
+                class="max-h-[420px] space-y-2 overflow-y-auto rounded bg-slate-950 p-3"
+              >
                 @for (item of visibleTimeline(); track item.minute + '-' + $index) {
                   <div class="text-sm">
                     <span class="font-semibold text-emerald-300">{{ item.minute }}'</span>
                     <span class="ml-2">{{ item.commentary }}</span>
-                    <span class="ml-2 text-xs text-slate-400">({{ item.homeScore }} x {{ item.awayScore }})</span>
+                    <span class="ml-2 text-xs text-slate-400"
+                      >({{ item.homeScore }} x {{ item.awayScore }})</span
+                    >
                   </div>
                 }
               </div>
@@ -195,8 +221,14 @@ type PlayPhase = 'neutral' | 'attack-home' | 'attack-away' | 'set-piece' | 'goal
               <h3 class="mb-3 text-lg font-semibold">Pós-jogo</h3>
               @if (isFinished()) {
                 <div class="space-y-1 text-sm">
-                  <p>Posse: {{ detail()?.match?.homePossession }}% x {{ detail()?.match?.awayPossession }}%</p>
-                  <p>Finalizações: {{ detail()?.match?.homeShots }} x {{ detail()?.match?.awayShots }}</p>
+                  <p>
+                    Posse: {{ detail()?.match?.homePossession }}% x
+                    {{ detail()?.match?.awayPossession }}%
+                  </p>
+                  <p>
+                    Finalizações: {{ detail()?.match?.homeShots }} x
+                    {{ detail()?.match?.awayShots }}
+                  </p>
                 </div>
 
                 <h4 class="mt-4 text-sm font-semibold text-slate-300">Destaques (notas)</h4>
@@ -206,11 +238,15 @@ type PlayPhase = 'neutral' | 'attack-home' | 'attack-away' | 'set-piece' | 'goal
                   }
                 </div>
               } @else {
-                <p class="text-sm text-slate-400">Estatísticas finais serão exibidas ao término da simulação.</p>
+                <p class="text-sm text-slate-400">
+                  Estatísticas finais serão exibidas ao término da simulação.
+                </p>
               }
 
               @if (!isReadOnlyMatch()) {
-                <h4 class="mt-5 text-sm font-semibold text-slate-300">Ações do técnico (ao vivo)</h4>
+                <h4 class="mt-5 text-sm font-semibold text-slate-300">
+                  Ações do técnico (ao vivo)
+                </h4>
                 <div class="mt-2 grid gap-2">
                   <button
                     type="button"
@@ -252,9 +288,14 @@ type PlayPhase = 'neutral' | 'attack-home' | 'attack-away' | 'set-piece' | 'goal
             <h3 class="mb-2 text-lg font-semibold">Timeline de eventos</h3>
             <div class="space-y-1 text-sm">
               @for (event of visibleEvents(); track event.minute + '-' + $index) {
-                <p><span class="text-emerald-300">{{ event.minute }}'</span> {{ event.description }}</p>
+                <p>
+                  <span class="text-emerald-300">{{ event.minute }}'</span> {{ event.description }}
+                </p>
               }
-              @for (action of visibleCoachActions(); track action.minute + '-' + $index + '-' + action.type) {
+              @for (
+                action of visibleCoachActions();
+                track action.minute + '-' + $index + '-' + action.type
+              ) {
                 <p>
                   <span class="text-sky-300">{{ action.minute }}'</span>
                   {{ action.text }}
@@ -579,7 +620,8 @@ export class MatchDayPage {
 
     const text = latestEvent.toLowerCase();
     if (text.includes('gol')) return 'goal';
-    if (text.includes('cartão') || text.includes('lesão') || text.includes('substituição')) return 'set-piece';
+    if (text.includes('cartão') || text.includes('lesão') || text.includes('substituição'))
+      return 'set-piece';
 
     const team = this.eventTeam();
     if (team === 'home') return 'attack-home';
@@ -630,7 +672,10 @@ export class MatchDayPage {
   private userFriendlyRealtimeError(message: string) {
     const normalized = message.toLowerCase();
 
-    if (normalized.includes('uq_matches_fixture_id') || normalized.includes('restrição de unicidade')) {
+    if (
+      normalized.includes('uq_matches_fixture_id') ||
+      normalized.includes('restrição de unicidade')
+    ) {
       return 'A transmissão já está preparada para esta partida. Recarregue a tela e tente novamente.';
     }
 

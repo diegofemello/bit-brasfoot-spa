@@ -10,7 +10,13 @@ interface SeasonStatsResponse {
   progress: { playedFixtures: number; totalFixtures: number };
   topScorers: Array<{ position: number; playerName: string; clubName: string; goals: number }>;
   topAssists: Array<{ position: number; playerName: string; clubName: string; assists: number }>;
-  tableLeaders: Array<{ position: number; clubName: string; points: number; played: number; goalDifference: number }>;
+  tableLeaders: Array<{
+    position: number;
+    clubName: string;
+    points: number;
+    played: number;
+    goalDifference: number;
+  }>;
 }
 
 @Component({
@@ -19,10 +25,14 @@ interface SeasonStatsResponse {
   template: `
     <main class="text-slate-100">
       <section class="flex flex-col gap-5">
-        <div class="flex items-center justify-between rounded-xl border border-slate-800 bg-slate-900/70 px-4 py-3">
+        <div
+          class="flex items-center justify-between rounded-xl border border-slate-800 bg-slate-900/70 px-4 py-3"
+        >
           <div>
-              <h1 class="text-2xl font-bold">Estatísticas da Temporada</h1>
-              <p class="text-xs text-slate-400">Números gerais da liga: gols, desempenho ofensivo e defesa.</p>
+            <h1 class="text-2xl font-bold">Estatísticas da Temporada</h1>
+            <p class="text-xs text-slate-400">
+              Números gerais da liga: gols, desempenho ofensivo e defesa.
+            </p>
           </div>
         </div>
 
@@ -38,7 +48,9 @@ interface SeasonStatsResponse {
             </div>
             <div class="rounded-lg border border-slate-800 bg-slate-900 p-3">
               <p class="text-xs text-slate-400">Partidas</p>
-              <p class="text-lg font-semibold">{{ stats()?.progress?.playedFixtures }}/{{ stats()?.progress?.totalFixtures }}</p>
+              <p class="text-lg font-semibold">
+                {{ stats()?.progress?.playedFixtures }}/{{ stats()?.progress?.totalFixtures }}
+              </p>
             </div>
           </div>
 
@@ -49,7 +61,9 @@ interface SeasonStatsResponse {
                 @for (item of stats()?.topScorers ?? []; track item.playerName) {
                   <div class="rounded bg-slate-950 px-3 py-2">
                     <p class="font-semibold">{{ item.position }}º {{ item.playerName }}</p>
-                    <p class="text-xs text-slate-400">{{ item.clubName }} • {{ item.goals }} gols</p>
+                    <p class="text-xs text-slate-400">
+                      {{ item.clubName }} • {{ item.goals }} gols
+                    </p>
                   </div>
                 }
               </div>
@@ -61,7 +75,9 @@ interface SeasonStatsResponse {
                 @for (item of stats()?.topAssists ?? []; track item.playerName) {
                   <div class="rounded bg-slate-950 px-3 py-2">
                     <p class="font-semibold">{{ item.position }}º {{ item.playerName }}</p>
-                    <p class="text-xs text-slate-400">{{ item.clubName }} • {{ item.assists }} assistências</p>
+                    <p class="text-xs text-slate-400">
+                      {{ item.clubName }} • {{ item.assists }} assistências
+                    </p>
                   </div>
                 }
               </div>
@@ -73,7 +89,9 @@ interface SeasonStatsResponse {
                 @for (item of stats()?.tableLeaders ?? []; track item.clubName) {
                   <div class="rounded bg-slate-950 px-3 py-2">
                     <p class="font-semibold">{{ item.position }}º {{ item.clubName }}</p>
-                    <p class="text-xs text-slate-400">{{ item.points }} pts • {{ item.played }}j • SG {{ item.goalDifference }}</p>
+                    <p class="text-xs text-slate-400">
+                      {{ item.points }} pts • {{ item.played }}j • SG {{ item.goalDifference }}
+                    </p>
                   </div>
                 }
               </div>

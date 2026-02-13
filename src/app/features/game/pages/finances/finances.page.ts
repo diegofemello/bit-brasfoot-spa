@@ -27,10 +27,14 @@ interface FinanceTransaction {
   template: `
     <main class="text-slate-100">
       <section class="flex flex-col gap-5">
-        <div class="flex items-center justify-between rounded-xl border border-slate-800 bg-slate-900/70 px-4 py-3">
+        <div
+          class="flex items-center justify-between rounded-xl border border-slate-800 bg-slate-900/70 px-4 py-3"
+        >
           <div>
             <h1 class="text-2xl font-bold">Finanças</h1>
-            <p class="text-xs text-slate-400">Controle de fluxo mensal, transações e saúde financeira do clube.</p>
+            <p class="text-xs text-slate-400">
+              Controle de fluxo mensal, transações e saúde financeira do clube.
+            </p>
           </div>
         </div>
 
@@ -38,7 +42,9 @@ interface FinanceTransaction {
           <div class="grid gap-3 sm:grid-cols-3">
             <div class="rounded-lg border border-slate-800 bg-slate-900 px-4 py-3">
               <p class="text-xs text-slate-400">Saldo</p>
-              <p class="text-xl font-bold text-emerald-400">{{ formatCurrency(account()?.balance || 0) }}</p>
+              <p class="text-xl font-bold text-emerald-400">
+                {{ formatCurrency(account()?.balance || 0) }}
+              </p>
             </div>
             <div class="rounded-lg border border-slate-800 bg-slate-900 px-4 py-3">
               <p class="text-xs text-slate-400">Receitas</p>
@@ -56,7 +62,10 @@ interface FinanceTransaction {
               <div>
                 <p class="mb-1 text-xs text-slate-400">Receita</p>
                 <div class="h-4 rounded bg-slate-800">
-                  <div class="h-4 rounded bg-emerald-500" [style.width.%]="incomeBarPercent()"></div>
+                  <div
+                    class="h-4 rounded bg-emerald-500"
+                    [style.width.%]="incomeBarPercent()"
+                  ></div>
                 </div>
               </div>
               <div>
@@ -113,7 +122,10 @@ interface FinanceTransaction {
                   <p>{{ item.description }}</p>
                   <p class="text-xs text-slate-400">{{ item.category }}</p>
                 </div>
-                <p [class.text-emerald-400]="item.type === 'income'" [class.text-rose-400]="item.type === 'expense'">
+                <p
+                  [class.text-emerald-400]="item.type === 'income'"
+                  [class.text-rose-400]="item.type === 'expense'"
+                >
                   {{ item.type === 'income' ? '+' : '-' }}{{ formatCurrency(item.amount) }}
                 </p>
               </div>

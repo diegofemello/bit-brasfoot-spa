@@ -37,9 +37,13 @@ interface MatchPlan {
         @if (fixture()) {
           <div class="rounded-lg border border-slate-800 bg-slate-900 p-4">
             <p class="text-sm text-slate-400">{{ fixture()?.matchDate }}</p>
-            <h2 class="text-xl font-semibold">{{ fixture()?.homeClub?.name }} x {{ fixture()?.awayClub?.name }}</h2>
+            <h2 class="text-xl font-semibold">
+              {{ fixture()?.homeClub?.name }} x {{ fixture()?.awayClub?.name }}
+            </h2>
             @if (fixture()?.status === 'played') {
-              <p class="mt-2 text-sm text-emerald-300">Partida já simulada: {{ fixture()?.homeScore }} x {{ fixture()?.awayScore }}</p>
+              <p class="mt-2 text-sm text-emerald-300">
+                Partida já simulada: {{ fixture()?.homeScore }} x {{ fixture()?.awayScore }}
+              </p>
             }
           </div>
         }
@@ -98,12 +102,20 @@ interface MatchPlan {
 
         <div class="rounded-lg border border-slate-800 bg-slate-900 p-4">
           <h3 class="text-lg font-semibold">Previsão de confronto</h3>
-          <p class="mt-2 text-sm text-slate-300">Força média: {{ homeStrength() }} x {{ awayStrength() }}</p>
+          <p class="mt-2 text-sm text-slate-300">
+            Força média: {{ homeStrength() }} x {{ awayStrength() }}
+          </p>
           <p class="mt-1 text-sm text-emerald-300">{{ prediction() }}</p>
         </div>
 
         @if (message()) {
-          <p class="text-sm" [class.text-rose-300]="isError()" [class.text-emerald-300]="!isError()">{{ message() }}</p>
+          <p
+            class="text-sm"
+            [class.text-rose-300]="isError()"
+            [class.text-emerald-300]="!isError()"
+          >
+            {{ message() }}
+          </p>
         }
 
         <div class="flex flex-wrap items-center gap-3">
@@ -208,13 +220,17 @@ export class PreMatchPage {
   }
 
   private loadClubStrengths(homeClubId: string, awayClubId: string) {
-    this.api.get<ClubPlayersResponse>(`players/club/${homeClubId}`, { page: 1, limit: 18 }).subscribe({
-      next: (response) => this.homeStrength.set(this.averageOverall(response.data)),
-    });
+    this.api
+      .get<ClubPlayersResponse>(`players/club/${homeClubId}`, { page: 1, limit: 18 })
+      .subscribe({
+        next: (response) => this.homeStrength.set(this.averageOverall(response.data)),
+      });
 
-    this.api.get<ClubPlayersResponse>(`players/club/${awayClubId}`, { page: 1, limit: 18 }).subscribe({
-      next: (response) => this.awayStrength.set(this.averageOverall(response.data)),
-    });
+    this.api
+      .get<ClubPlayersResponse>(`players/club/${awayClubId}`, { page: 1, limit: 18 })
+      .subscribe({
+        next: (response) => this.awayStrength.set(this.averageOverall(response.data)),
+      });
   }
 
   private averageOverall(players: Array<{ overall: number }>) {

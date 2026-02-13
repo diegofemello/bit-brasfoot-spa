@@ -26,10 +26,14 @@ interface YouthListResponse {
   template: `
     <main class="text-slate-100">
       <section class="flex flex-col gap-5">
-        <div class="flex items-center justify-between rounded-xl border border-slate-800 bg-slate-900/70 px-4 py-3">
+        <div
+          class="flex items-center justify-between rounded-xl border border-slate-800 bg-slate-900/70 px-4 py-3"
+        >
           <div>
             <h1 class="text-2xl font-bold">Categorias de Base</h1>
-            <p class="text-xs text-slate-400">Gerencie jovens do clube e promova talentos para o elenco principal.</p>
+            <p class="text-xs text-slate-400">
+              Gerencie jovens do clube e promova talentos para o elenco principal.
+            </p>
           </div>
         </div>
 
@@ -76,7 +80,8 @@ interface YouthListResponse {
                 <div>
                   <p class="font-semibold">{{ player.name }}</p>
                   <p class="text-xs text-slate-400">
-                    {{ positionLabel(player.position) }} • {{ player.age }} anos • OVR {{ player.overall }} / POT {{ player.potential }}
+                    {{ positionLabel(player.position) }} • {{ player.age }} anos • OVR
+                    {{ player.overall }} / POT {{ player.potential }}
                   </p>
                 </div>
                 <div class="flex items-center gap-2">
@@ -129,7 +134,10 @@ export class YouthAcademyPage {
 
     if (!this.hasActiveClub()) {
       this.players.set([]);
-      this.setFeedback('Você está sem clube. Aceite uma proposta para gerenciar categorias de base.', true);
+      this.setFeedback(
+        'Você está sem clube. Aceite uma proposta para gerenciar categorias de base.',
+        true,
+      );
       return;
     }
 
@@ -153,14 +161,17 @@ export class YouthAcademyPage {
 
     this.isLoading.set(true);
 
-    this.api.post<{ message: string }>(`seasons/save/${saveGameId}/youth/${playerId}/promote`, {}).subscribe({
-      next: (response) => {
-        this.setFeedback(response.message, false);
-        this.loadYouth();
-      },
-      error: (err) => this.setFeedback(this.extractErrorMessage(err, 'Falha ao promover jogador.'), true),
-      complete: () => this.isLoading.set(false),
-    });
+    this.api
+      .post<{ message: string }>(`seasons/save/${saveGameId}/youth/${playerId}/promote`, {})
+      .subscribe({
+        next: (response) => {
+          this.setFeedback(response.message, false);
+          this.loadYouth();
+        },
+        error: (err) =>
+          this.setFeedback(this.extractErrorMessage(err, 'Falha ao promover jogador.'), true),
+        complete: () => this.isLoading.set(false),
+      });
   }
 
   release(playerId: string) {
@@ -176,7 +187,8 @@ export class YouthAcademyPage {
         this.setFeedback(response.message, false);
         this.loadYouth();
       },
-      error: (err) => this.setFeedback(this.extractErrorMessage(err, 'Falha ao dispensar jogador.'), true),
+      error: (err) =>
+        this.setFeedback(this.extractErrorMessage(err, 'Falha ao dispensar jogador.'), true),
       complete: () => this.isLoading.set(false),
     });
   }
@@ -187,8 +199,9 @@ export class YouthAcademyPage {
   }
 
   private extractErrorMessage(err: unknown, fallback: string) {
-    const response = (err as { error?: { message?: string | string[]; error?: { message?: string | string[] } } })
-      ?.error;
+    const response = (
+      err as { error?: { message?: string | string[]; error?: { message?: string | string[] } } }
+    )?.error;
     const candidates = [response?.message, response?.error?.message];
 
     for (const candidate of candidates) {

@@ -78,171 +78,188 @@ interface ChampionsHistoryResponse {
   imports: [CommonModule, RouterLink],
   template: `
     <section class="flex flex-col gap-6">
-        <div class="rounded-xl border border-slate-800 bg-slate-900/70 px-4 py-3">
-          <h2 class="text-2xl font-bold">Dashboard de Gerenciamento do Time</h2>
-          <p class="text-xs text-slate-400">Visão geral do clube, finanças e infraestrutura.</p>
+      <div class="rounded-xl border border-slate-800 bg-slate-900/70 px-4 py-3">
+        <h2 class="text-2xl font-bold">Dashboard de Gerenciamento do Time</h2>
+        <p class="text-xs text-slate-400">Visão geral do clube, finanças e infraestrutura.</p>
+      </div>
+      @if (!saveGame()) {
+        <div class="text-center">
+          <p class="text-slate-400">Carregando...</p>
         </div>
-        @if (!saveGame()) {
-          <div class="text-center">
-            <p class="text-slate-400">Carregando...</p>
-          </div>
-        }
+      }
 
-        @if (errorMessage()) {
-          <div
-            class="mb-4 rounded-lg border border-rose-400/40 bg-rose-500/10 px-4 py-3 text-rose-200"
-          >
-            {{ errorMessage() }}
-          </div>
-        }
+      @if (errorMessage()) {
+        <div
+          class="mb-4 rounded-lg border border-rose-400/40 bg-rose-500/10 px-4 py-3 text-rose-200"
+        >
+          {{ errorMessage() }}
+        </div>
+      }
 
-        @if (saveGame() && !saveGame()?.club) {
-          <div class="text-center">
-            <p class="text-slate-400">Nenhum clube associado a este save.</p>
-            <a
-              routerLink="/career"
-              class="mt-4 inline-block text-emerald-400 hover:text-emerald-300"
-            >
-              Ir para dashboard de carreira
-            </a>
-          </div>
-        }
+      @if (saveGame() && !saveGame()?.club) {
+        <div class="text-center">
+          <p class="text-slate-400">Nenhum clube associado a este save.</p>
+          <a routerLink="/career" class="mt-4 inline-block text-emerald-400 hover:text-emerald-300">
+            Ir para dashboard de carreira
+          </a>
+        </div>
+      }
 
-        @if (club()) {
-          <div class="flex flex-col gap-6">
-              <div class="rounded-xl border border-slate-800 bg-slate-900 p-6">
-              <div class="mb-4 flex items-center justify-between">
-                <div>
-                  <div class="flex items-center gap-3">
-                    <span class="text-3xl">{{ club()?.league?.country?.flagEmoji }}</span>
-                    <div>
-                      <h2 class="text-2xl font-bold">{{ club()?.name }}</h2>
-                      <p class="text-sm text-slate-400">
-                        {{ club()?.league?.country?.name }} • {{ club()?.league?.name }}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-                <div class="text-right">
-                  <p class="text-sm text-slate-400">Orçamento</p>
-                  <p class="text-2xl font-bold text-emerald-400">
-                    {{ formatCurrency(club()?.budget || 0) }}
-                  </p>
-                </div>
-              </div>
-              <div class="grid gap-4 sm:grid-cols-2">
-                <div class="rounded-lg border border-slate-800 bg-slate-950 px-4 py-3">
-                  <p class="text-sm text-slate-400">Estádio</p>
-                  <p class="font-semibold">{{ club()?.stadiumName }}</p>
-                  <p class="text-sm text-slate-500">
-                    Capacidade: {{ (club()?.stadiumCapacity || 0).toLocaleString() }}
-                  </p>
-                </div>
-                <div class="rounded-lg border border-slate-800 bg-slate-950 px-4 py-3">
-                  <p class="text-sm text-slate-400">Elenco</p>
-                  <p class="font-semibold">{{ players().length }} jogadores</p>
-                  <p class="text-sm text-slate-500">
-                    Overall médio: {{ calculateAverageOverall() }}
-                  </p>
-                </div>
-              </div>
-              </div>
-
-              @if (finance()) {
-                <div class="grid gap-4 sm:grid-cols-3">
-                  <div class="rounded-xl border border-slate-800 bg-slate-900 px-4 py-3">
-                    <p class="text-xs text-slate-400">Saldo</p>
-                    <p class="text-lg font-bold text-emerald-400">
-                      {{ formatCurrency(finance()?.balance || 0) }}
+      @if (club()) {
+        <div class="flex flex-col gap-6">
+          <div class="rounded-xl border border-slate-800 bg-slate-900 p-6">
+            <div class="mb-4 flex items-center justify-between">
+              <div>
+                <div class="flex items-center gap-3">
+                  <span class="text-3xl">{{ club()?.league?.country?.flagEmoji }}</span>
+                  <div>
+                    <h2 class="text-2xl font-bold">{{ club()?.name }}</h2>
+                    <p class="text-sm text-slate-400">
+                      {{ club()?.league?.country?.name }} • {{ club()?.league?.name }}
                     </p>
                   </div>
-                  <div class="rounded-xl border border-slate-800 bg-slate-900 px-4 py-3">
-                    <p class="text-xs text-slate-400">Receita mensal</p>
-                    <p class="text-lg font-bold">{{ formatCurrency(finance()?.monthlyIncome || 0) }}</p>
-                  </div>
-                  <div class="rounded-xl border border-slate-800 bg-slate-900 px-4 py-3">
-                    <p class="text-xs text-slate-400">Despesas mensais</p>
-                    <p class="text-lg font-bold">{{ formatCurrency(finance()?.monthlyExpense || 0) }}</p>
-                  </div>
-                </div>
-              }
-
-              @if (infrastructure()) {
-                <div class="rounded-lg border border-slate-800 bg-slate-900 p-4">
-                  <h3 class="mb-3 text-sm font-semibold text-slate-300">Infraestrutura do Clube</h3>
-                  <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-                    <div class="rounded bg-slate-950 px-4 py-3">
-                      <p class="text-xs text-slate-400">Treino</p>
-                      <p class="text-lg font-bold">Nível {{ infrastructure()?.trainingLevel }}</p>
-                    </div>
-                    <div class="rounded bg-slate-950 px-4 py-3">
-                      <p class="text-xs text-slate-400">Base</p>
-                      <p class="text-lg font-bold">Nível {{ infrastructure()?.youthLevel }}</p>
-                    </div>
-                    <div class="rounded bg-slate-950 px-4 py-3">
-                      <p class="text-xs text-slate-400">Médico</p>
-                      <p class="text-lg font-bold">Nível {{ infrastructure()?.medicalLevel }}</p>
-                    </div>
-                    <div class="rounded bg-slate-950 px-4 py-3">
-                      <p class="text-xs text-slate-400">Estádio</p>
-                      <p class="text-lg font-bold">Nível {{ infrastructure()?.stadiumLevel }}</p>
-                    </div>
-                  </div>
-                </div>
-              }
-
-              <div class="grid gap-4 lg:grid-cols-3">
-                <div class="rounded-lg border border-slate-800 bg-slate-900 p-4 lg:col-span-2">
-                  <h3 class="mb-3 text-sm font-semibold text-slate-300">Timeline da carreira</h3>
-                  <div class="space-y-2 text-sm">
-                    @for (item of careerHistory().slice(0, 3); track item.clubId + item.fromDate) {
-                      <div class="relative rounded bg-slate-950 px-3 py-2 pl-6">
-                        <span class="absolute left-2 top-4 h-2 w-2 rounded-full bg-emerald-400"></span>
-                        <p class="font-semibold">{{ item.clubName }}</p>
-                        <p class="text-xs text-slate-400">{{ item.countryName }} • {{ item.leagueName }}</p>
-                        <p class="text-xs text-slate-500">
-                          {{ item.fromDate | date:'dd/MM/yyyy' }}
-                          @if (item.toDate) {
-                            até {{ item.toDate | date:'dd/MM/yyyy' }}
-                          } @else {
-                            • Atual
-                          }
-                        </p>
-                      </div>
-                    }
-                    @if (careerHistory().length === 0) {
-                      <p class="text-sm text-slate-500">Sem histórico de carreira disponível.</p>
-                    }
-                  </div>
-                </div>
-
-                <div class="rounded-lg border border-slate-800 bg-slate-900 p-4">
-                  <h3 class="mb-3 text-sm font-semibold text-slate-300">Troféus do clube atual</h3>
-                  <div class="space-y-2 text-sm">
-                    <div class="rounded bg-slate-950 px-3 py-2">
-                      <p class="text-xs text-slate-400">Títulos no save</p>
-                      <p class="text-lg font-bold text-amber-300">{{ currentClubTitlesCount() }}</p>
-                    </div>
-                    <a routerLink="/career" class="block rounded bg-slate-950 px-3 py-2 text-xs text-emerald-300 hover:bg-slate-800">
-                      Ver carreira completa
-                    </a>
-                    <a routerLink="/champions-history" class="block rounded bg-slate-950 px-3 py-2 text-xs text-emerald-300 hover:bg-slate-800">
-                      Ver histórico de campeões
-                    </a>
-                  </div>
                 </div>
               </div>
-
-              <div class="rounded-lg border border-slate-800 bg-slate-900 p-4">
-                <h3 class="mb-3 text-sm font-semibold text-slate-300">Acesso rápido do time</h3>
-                <div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-                  <a routerLink="/squad" class="rounded bg-slate-950 px-3 py-2 text-sm hover:bg-slate-800">Gerenciar Elenco</a>
-                  <a routerLink="/tactics" class="rounded bg-slate-950 px-3 py-2 text-sm hover:bg-slate-800">Ajustar Táticas</a>
-                  <a routerLink="/transfers" class="rounded bg-slate-950 px-3 py-2 text-sm hover:bg-slate-800">Mercado de Transferências</a>
-                </div>
+              <div class="text-right">
+                <p class="text-sm text-slate-400">Orçamento</p>
+                <p class="text-2xl font-bold text-emerald-400">
+                  {{ formatCurrency(club()?.budget || 0) }}
+                </p>
               </div>
+            </div>
+            <div class="grid gap-4 sm:grid-cols-2">
+              <div class="rounded-lg border border-slate-800 bg-slate-950 px-4 py-3">
+                <p class="text-sm text-slate-400">Estádio</p>
+                <p class="font-semibold">{{ club()?.stadiumName }}</p>
+                <p class="text-sm text-slate-500">
+                  Capacidade: {{ (club()?.stadiumCapacity || 0).toLocaleString() }}
+                </p>
+              </div>
+              <div class="rounded-lg border border-slate-800 bg-slate-950 px-4 py-3">
+                <p class="text-sm text-slate-400">Elenco</p>
+                <p class="font-semibold">{{ players().length }} jogadores</p>
+                <p class="text-sm text-slate-500">Overall médio: {{ calculateAverageOverall() }}</p>
+              </div>
+            </div>
           </div>
-        }
+
+          @if (finance()) {
+            <div class="grid gap-4 sm:grid-cols-3">
+              <div class="rounded-xl border border-slate-800 bg-slate-900 px-4 py-3">
+                <p class="text-xs text-slate-400">Saldo</p>
+                <p class="text-lg font-bold text-emerald-400">
+                  {{ formatCurrency(finance()?.balance || 0) }}
+                </p>
+              </div>
+              <div class="rounded-xl border border-slate-800 bg-slate-900 px-4 py-3">
+                <p class="text-xs text-slate-400">Receita mensal</p>
+                <p class="text-lg font-bold">{{ formatCurrency(finance()?.monthlyIncome || 0) }}</p>
+              </div>
+              <div class="rounded-xl border border-slate-800 bg-slate-900 px-4 py-3">
+                <p class="text-xs text-slate-400">Despesas mensais</p>
+                <p class="text-lg font-bold">
+                  {{ formatCurrency(finance()?.monthlyExpense || 0) }}
+                </p>
+              </div>
+            </div>
+          }
+
+          @if (infrastructure()) {
+            <div class="rounded-lg border border-slate-800 bg-slate-900 p-4">
+              <h3 class="mb-3 text-sm font-semibold text-slate-300">Infraestrutura do Clube</h3>
+              <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+                <div class="rounded bg-slate-950 px-4 py-3">
+                  <p class="text-xs text-slate-400">Treino</p>
+                  <p class="text-lg font-bold">Nível {{ infrastructure()?.trainingLevel }}</p>
+                </div>
+                <div class="rounded bg-slate-950 px-4 py-3">
+                  <p class="text-xs text-slate-400">Base</p>
+                  <p class="text-lg font-bold">Nível {{ infrastructure()?.youthLevel }}</p>
+                </div>
+                <div class="rounded bg-slate-950 px-4 py-3">
+                  <p class="text-xs text-slate-400">Médico</p>
+                  <p class="text-lg font-bold">Nível {{ infrastructure()?.medicalLevel }}</p>
+                </div>
+                <div class="rounded bg-slate-950 px-4 py-3">
+                  <p class="text-xs text-slate-400">Estádio</p>
+                  <p class="text-lg font-bold">Nível {{ infrastructure()?.stadiumLevel }}</p>
+                </div>
+              </div>
+            </div>
+          }
+
+          <div class="grid gap-4 lg:grid-cols-3">
+            <div class="rounded-lg border border-slate-800 bg-slate-900 p-4 lg:col-span-2">
+              <h3 class="mb-3 text-sm font-semibold text-slate-300">Timeline da carreira</h3>
+              <div class="space-y-2 text-sm">
+                @for (item of careerHistory().slice(0, 3); track item.clubId + item.fromDate) {
+                  <div class="relative rounded bg-slate-950 px-3 py-2 pl-6">
+                    <span class="absolute left-2 top-4 h-2 w-2 rounded-full bg-emerald-400"></span>
+                    <p class="font-semibold">{{ item.clubName }}</p>
+                    <p class="text-xs text-slate-400">
+                      {{ item.countryName }} • {{ item.leagueName }}
+                    </p>
+                    <p class="text-xs text-slate-500">
+                      {{ item.fromDate | date: 'dd/MM/yyyy' }}
+                      @if (item.toDate) {
+                        até {{ item.toDate | date: 'dd/MM/yyyy' }}
+                      } @else {
+                        • Atual
+                      }
+                    </p>
+                  </div>
+                }
+                @if (careerHistory().length === 0) {
+                  <p class="text-sm text-slate-500">Sem histórico de carreira disponível.</p>
+                }
+              </div>
+            </div>
+
+            <div class="rounded-lg border border-slate-800 bg-slate-900 p-4">
+              <h3 class="mb-3 text-sm font-semibold text-slate-300">Troféus do clube atual</h3>
+              <div class="space-y-2 text-sm">
+                <div class="rounded bg-slate-950 px-3 py-2">
+                  <p class="text-xs text-slate-400">Títulos no save</p>
+                  <p class="text-lg font-bold text-amber-300">{{ currentClubTitlesCount() }}</p>
+                </div>
+                <a
+                  routerLink="/career"
+                  class="block rounded bg-slate-950 px-3 py-2 text-xs text-emerald-300 hover:bg-slate-800"
+                >
+                  Ver carreira completa
+                </a>
+                <a
+                  routerLink="/champions-history"
+                  class="block rounded bg-slate-950 px-3 py-2 text-xs text-emerald-300 hover:bg-slate-800"
+                >
+                  Ver histórico de campeões
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <div class="rounded-lg border border-slate-800 bg-slate-900 p-4">
+            <h3 class="mb-3 text-sm font-semibold text-slate-300">Acesso rápido do time</h3>
+            <div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+              <a
+                routerLink="/squad"
+                class="rounded bg-slate-950 px-3 py-2 text-sm hover:bg-slate-800"
+                >Gerenciar Elenco</a
+              >
+              <a
+                routerLink="/tactics"
+                class="rounded bg-slate-950 px-3 py-2 text-sm hover:bg-slate-800"
+                >Ajustar Táticas</a
+              >
+              <a
+                routerLink="/transfers"
+                class="rounded bg-slate-950 px-3 py-2 text-sm hover:bg-slate-800"
+                >Mercado de Transferências</a
+              >
+            </div>
+          </div>
+        </div>
+      }
     </section>
   `,
 })
@@ -318,15 +335,19 @@ export class DashboardPage {
   }
 
   loadCareerHighlights(saveGameId: string) {
-    this.apiService.getSilently<{ history: CareerHistoryItem[] }>(`career/save/${saveGameId}/history`).subscribe({
-      next: (response) => this.careerHistory.set(response.history),
-      error: () => this.careerHistory.set([]),
-    });
+    this.apiService
+      .getSilently<{ history: CareerHistoryItem[] }>(`career/save/${saveGameId}/history`)
+      .subscribe({
+        next: (response) => this.careerHistory.set(response.history),
+        error: () => this.careerHistory.set([]),
+      });
 
-    this.apiService.getSilently<ChampionsHistoryResponse>(`stats/save/${saveGameId}/champions`).subscribe({
-      next: (response) => this.champions.set(response.champions),
-      error: () => this.champions.set([]),
-    });
+    this.apiService
+      .getSilently<ChampionsHistoryResponse>(`stats/save/${saveGameId}/champions`)
+      .subscribe({
+        next: (response) => this.champions.set(response.champions),
+        error: () => this.champions.set([]),
+      });
   }
 
   calculateAverageOverall(): number {
@@ -354,5 +375,4 @@ export class DashboardPage {
 
     return this.champions().filter((item) => item.championClubId === currentClubId).length;
   }
-
 }

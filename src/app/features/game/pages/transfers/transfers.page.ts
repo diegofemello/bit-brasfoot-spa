@@ -47,10 +47,14 @@ interface TransferProposal {
   template: `
     <main class="text-slate-100">
       <section class="flex flex-col gap-6">
-        <div class="flex items-center justify-between rounded-xl border border-slate-800 bg-slate-900/70 px-4 py-3">
+        <div
+          class="flex items-center justify-between rounded-xl border border-slate-800 bg-slate-900/70 px-4 py-3"
+        >
           <div>
             <h1 class="text-2xl font-bold">Mercado de Transferências</h1>
-            <p class="text-xs text-slate-400">Negocie compras, empréstimos e acompanhe propostas em andamento.</p>
+            <p class="text-xs text-slate-400">
+              Negocie compras, empréstimos e acompanhe propostas em andamento.
+            </p>
           </div>
         </div>
 
@@ -250,7 +254,11 @@ interface TransferProposal {
               placeholder="Preço"
             />
             <label class="flex items-center gap-2 text-xs">
-              <input type="checkbox" [checked]="listLoan()" (change)="listLoan.set($any($event.target).checked)" />
+              <input
+                type="checkbox"
+                [checked]="listLoan()"
+                (change)="listLoan.set($any($event.target).checked)"
+              />
               Disponível para empréstimo
             </label>
             <button
@@ -303,7 +311,11 @@ interface TransferProposal {
         }
 
         @if (feedback()) {
-          <p class="text-sm" [class.text-emerald-300]="!feedbackError()" [class.text-rose-300]="feedbackError()">
+          <p
+            class="text-sm"
+            [class.text-emerald-300]="!feedbackError()"
+            [class.text-rose-300]="feedbackError()"
+          >
             {{ feedback() }}
           </p>
         }
@@ -489,7 +501,10 @@ export class TransfersPage {
           this.loadAll();
         },
         error: (err) => {
-          this.setFeedback(this.extractErrorMessage(err, 'Não foi possível enviar proposta.'), true);
+          this.setFeedback(
+            this.extractErrorMessage(err, 'Não foi possível enviar proposta.'),
+            true,
+          );
         },
       });
   }
@@ -502,10 +517,14 @@ export class TransfersPage {
       })
       .subscribe({
         next: () => {
-          this.setFeedback(`Proposta ${action === 'accept' ? 'aceita' : action === 'reject' ? 'rejeitada' : 'contraproposta enviada'}.`, false);
+          this.setFeedback(
+            `Proposta ${action === 'accept' ? 'aceita' : action === 'reject' ? 'rejeitada' : 'contraproposta enviada'}.`,
+            false,
+          );
           this.loadAll();
         },
-        error: (err) => this.setFeedback(this.extractErrorMessage(err, 'Falha ao responder proposta.'), true),
+        error: (err) =>
+          this.setFeedback(this.extractErrorMessage(err, 'Falha ao responder proposta.'), true),
       });
   }
 
@@ -529,7 +548,8 @@ export class TransfersPage {
   }
 
   private extractErrorMessage(err: unknown, fallback: string) {
-    const message = (err as { error?: { error?: { message?: string | string[] } } })?.error?.error?.message;
+    const message = (err as { error?: { error?: { message?: string | string[] } } })?.error?.error
+      ?.message;
     if (Array.isArray(message) && message.length > 0) {
       return message[0];
     }

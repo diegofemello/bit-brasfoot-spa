@@ -32,7 +32,11 @@ interface NavGroup {
         [class.w-[280px]]="!isCollapsed()"
         [class.w-[88px]]="isCollapsed()"
       >
-        <div class="mb-4 flex items-center" [class.justify-between]="!isCollapsed()" [class.justify-center]="isCollapsed()">
+        <div
+          class="mb-4 flex items-center"
+          [class.justify-between]="!isCollapsed()"
+          [class.justify-center]="isCollapsed()"
+        >
           @if (!isCollapsed()) {
             <h1 class="text-sm font-bold uppercase tracking-wide text-slate-300">BitFoot</h1>
           }
@@ -49,7 +53,9 @@ interface NavGroup {
 
         @for (group of navGroups; track group.title) {
           @if (!isCollapsed()) {
-            <h2 class="mb-2 px-2 text-xs font-bold uppercase tracking-wide text-slate-500">{{ group.title }}</h2>
+            <h2 class="mb-2 px-2 text-xs font-bold uppercase tracking-wide text-slate-500">
+              {{ group.title }}
+            </h2>
           }
           <div class="mb-4 flex flex-col gap-1 text-sm">
             @for (item of group.items; track item.route) {
@@ -66,7 +72,9 @@ interface NavGroup {
                 [class.px-3]="!isCollapsed()"
                 [attr.title]="item.label"
               >
-                <span class="inline-flex h-6 w-6 items-center justify-center rounded bg-slate-800 text-[11px] font-bold text-slate-200">
+                <span
+                  class="inline-flex h-6 w-6 items-center justify-center rounded bg-slate-800 text-[11px] font-bold text-slate-200"
+                >
                   {{ item.icon }}
                 </span>
                 @if (!isCollapsed()) {
@@ -80,7 +88,9 @@ interface NavGroup {
         <div class="mt-auto border-t border-slate-800 pt-3">
           @if (!isCollapsed()) {
             <p class="text-xs text-slate-400">{{ saveGame()?.name || 'Sem save' }}</p>
-            <p class="text-xs text-slate-500">{{ saveGame()?.currentDate }} • T{{ saveGame()?.currentSeasonYear }}</p>
+            <p class="text-xs text-slate-500">
+              {{ saveGame()?.currentDate }} • T{{ saveGame()?.currentSeasonYear }}
+            </p>
           }
           @if (isCollapsed()) {
             <p class="text-center text-xs text-slate-400" title="Save atual">🎮</p>
@@ -100,7 +110,10 @@ interface NavGroup {
         </div>
       </header> -->
 
-      <section class="game-content-host min-h-screen px-6 pb-8 pt-4 transition-all duration-200" [style.marginLeft.px]="isCollapsed() ? 88 : 280">
+      <section
+        class="game-content-host min-h-screen px-6 pb-8 pt-4 transition-all duration-200"
+        [style.marginLeft.px]="isCollapsed() ? 88 : 280"
+      >
         <section>
           <router-outlet />
         </section>

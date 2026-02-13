@@ -24,15 +24,23 @@ interface ExpiringContractsResponse {
   template: `
     <main class="text-slate-100">
       <section class="flex flex-col gap-5">
-        <div class="flex items-center justify-between rounded-xl border border-slate-800 bg-slate-900/70 px-4 py-3">
+        <div
+          class="flex items-center justify-between rounded-xl border border-slate-800 bg-slate-900/70 px-4 py-3"
+        >
           <div>
             <h1 class="text-2xl font-bold">Renovação de Contratos</h1>
-            <p class="text-xs text-slate-400">Monitore vínculos perto do fim e antecipe renovações estratégicas.</p>
+            <p class="text-xs text-slate-400">
+              Monitore vínculos perto do fim e antecipe renovações estratégicas.
+            </p>
           </div>
         </div>
 
         @if (feedback()) {
-          <p class="text-sm" [class.text-rose-300]="feedbackError()" [class.text-emerald-300]="!feedbackError()">
+          <p
+            class="text-sm"
+            [class.text-rose-300]="feedbackError()"
+            [class.text-emerald-300]="!feedbackError()"
+          >
             {{ feedback() }}
           </p>
         }
@@ -59,7 +67,8 @@ interface ExpiringContractsResponse {
                 <div>
                   <p class="font-semibold">{{ player.name }}</p>
                   <p class="text-xs text-slate-400">
-                    {{ player.position }} • {{ player.age }} anos • OVR {{ player.overall }} • {{ player.contractYearsRemaining }} ano(s)
+                    {{ player.position }} • {{ player.age }} anos • OVR {{ player.overall }} •
+                    {{ player.contractYearsRemaining }} ano(s)
                   </p>
                 </div>
                 <div class="flex items-center gap-2">
@@ -99,23 +108,28 @@ export class ContractsPage {
       return;
     }
 
-    this.api.get<ExpiringContractsResponse>(`seasons/save/${saveGameId}/contracts/expiring`).subscribe({
-      next: (response) => this.players.set(response.players),
-      error: () => this.setFeedback('Falha ao carregar contratos.', true),
-    });
+    this.api
+      .get<ExpiringContractsResponse>(`seasons/save/${saveGameId}/contracts/expiring`)
+      .subscribe({
+        next: (response) => this.players.set(response.players),
+        error: () => this.setFeedback('Falha ao carregar contratos.', true),
+      });
   }
 
   renew(playerId: string) {
     const saveGameId = this.gameState.selectedSaveGameId();
     if (!saveGameId) return;
 
-    this.api.post<{ message: string }>(`seasons/save/${saveGameId}/contracts/${playerId}/renew`, {}).subscribe({
-      next: (response) => {
-        this.setFeedback(response.message, false);
-        this.loadExpiring();
-      },
-      error: (err) => this.setFeedback(this.extractErrorMessage(err, 'Falha ao renovar contrato.'), true),
-    });
+    this.api
+      .post<{ message: string }>(`seasons/save/${saveGameId}/contracts/${playerId}/renew`, {})
+      .subscribe({
+        next: (response) => {
+          this.setFeedback(response.message, false);
+          this.loadExpiring();
+        },
+        error: (err) =>
+          this.setFeedback(this.extractErrorMessage(err, 'Falha ao renovar contrato.'), true),
+      });
   }
 
   formatCurrency(value: number) {
@@ -132,7 +146,8 @@ export class ContractsPage {
   }
 
   private extractErrorMessage(err: unknown, fallback: string) {
-    const message = (err as { error?: { error?: { message?: string | string[] } } })?.error?.error?.message;
+    const message = (err as { error?: { error?: { message?: string | string[] } } })?.error?.error
+      ?.message;
     if (Array.isArray(message) && message.length > 0) {
       return message[0];
     }

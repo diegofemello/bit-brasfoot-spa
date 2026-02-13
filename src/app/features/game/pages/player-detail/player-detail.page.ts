@@ -81,7 +81,9 @@ interface PlayerStatsResponse {
             <h3 class="mb-3 text-lg font-semibold">Histórico recente</h3>
             <div class="grid gap-2">
               @for (item of stats()?.formHistory || []; track item.match) {
-                <div class="flex items-center justify-between rounded bg-slate-950 px-3 py-2 text-sm">
+                <div
+                  class="flex items-center justify-between rounded bg-slate-950 px-3 py-2 text-sm"
+                >
                   <span>Jogo {{ item.match }}</span>
                   <span>{{ item.rating.toFixed(1) }}</span>
                 </div>

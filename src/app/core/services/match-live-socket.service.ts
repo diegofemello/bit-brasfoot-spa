@@ -99,7 +99,11 @@ export class MatchLiveSocketService {
     this.socket?.emit('join_match', { fixtureId });
   }
 
-  control(fixtureId: string, action: 'start' | 'pause' | 'resume' | 'step' | 'reset' | 'speed', speedMs?: number) {
+  control(
+    fixtureId: string,
+    action: 'start' | 'pause' | 'resume' | 'step' | 'reset' | 'speed',
+    speedMs?: number,
+  ) {
     this.socket?.emit('match_control', {
       fixtureId,
       action,

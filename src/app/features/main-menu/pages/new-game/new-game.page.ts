@@ -22,7 +22,9 @@ interface SaveGameResponse {
     <main class="min-h-screen bg-slate-950 text-slate-100">
       <section class="mx-auto flex w-full max-w-2xl flex-col gap-4 px-6 py-16">
         <h1 class="text-3xl font-bold">Novo jogo</h1>
-        <p class="text-slate-300">Cria manager e inicia carreira sem clube para negociar propostas.</p>
+        <p class="text-slate-300">
+          Cria manager e inicia carreira sem clube para negociar propostas.
+        </p>
 
         <label class="flex flex-col gap-2">
           <span class="text-sm text-slate-300">Nome do manager</span>
