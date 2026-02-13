@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { DashboardPage } from './features/game/pages/dashboard/dashboard.page';
+import { GameShellPage } from './features/game/layouts/game-shell/game-shell.page';
 import { CompetitionsPage } from './features/game/pages/competitions/competitions.page';
 import { ContractsPage } from './features/game/pages/contracts/contracts.page';
 import { CareerPage } from './features/game/pages/career/career.page';
@@ -17,7 +18,6 @@ import { YouthAcademyPage } from './features/game/pages/youth-academy/youth-acad
 import { LoadGamePage } from './features/main-menu/pages/load-game/load-game.page';
 import { MainMenuPage } from './features/main-menu/pages/main-menu/main-menu.page';
 import { NewGamePage } from './features/main-menu/pages/new-game/new-game.page';
-import { SelectClubPage } from './features/main-menu/pages/select-club/select-club.page';
 
 export const routes: Routes = [
   {
@@ -34,72 +34,74 @@ export const routes: Routes = [
     component: NewGamePage,
   },
   {
-    path: 'select-club',
-    component: SelectClubPage,
-  },
-  {
     path: 'load-game',
     component: LoadGamePage,
   },
   {
-    path: 'dashboard',
-    component: DashboardPage,
-  },
-  {
-    path: 'squad',
-    component: SquadPage,
-  },
-  {
-    path: 'players/:id',
-    component: PlayerDetailPage,
-  },
-  {
-    path: 'tactics',
-    component: TacticsPage,
-  },
-  {
-    path: 'finances',
-    component: FinancesPage,
-  },
-  {
-    path: 'infrastructure',
-    component: InfrastructurePage,
-  },
-  {
-    path: 'transfers',
-    component: TransfersPage,
-  },
-  {
-    path: 'competitions',
-    component: CompetitionsPage,
-  },
-  {
-    path: 'contracts',
-    component: ContractsPage,
-  },
-  {
-    path: 'career',
-    component: CareerPage,
-  },
-  {
-    path: 'youth-academy',
-    component: YouthAcademyPage,
-  },
-  {
-    path: 'season-summary',
-    component: SeasonSummaryPage,
-  },
-  {
-    path: 'season-kickoff',
-    component: SeasonKickoffPage,
-  },
-  {
-    path: 'pre-match/:fixtureId',
-    component: PreMatchPage,
-  },
-  {
-    path: 'match-day/:fixtureId',
-    component: MatchDayPage,
+    path: '',
+    component: GameShellPage,
+    children: [
+      {
+        path: 'dashboard',
+        component: DashboardPage,
+      },
+      {
+        path: 'squad',
+        component: SquadPage,
+      },
+      {
+        path: 'players/:id',
+        component: PlayerDetailPage,
+      },
+      {
+        path: 'tactics',
+        component: TacticsPage,
+      },
+      {
+        path: 'finances',
+        component: FinancesPage,
+      },
+      {
+        path: 'infrastructure',
+        component: InfrastructurePage,
+      },
+      {
+        path: 'transfers',
+        component: TransfersPage,
+      },
+      {
+        path: 'competitions',
+        component: CompetitionsPage,
+      },
+      {
+        path: 'contracts',
+        component: ContractsPage,
+      },
+      {
+        path: 'career',
+        component: CareerPage,
+      },
+      {
+        path: 'youth-academy',
+        component: YouthAcademyPage,
+      },
+      {
+        path: 'season-summary',
+        component: SeasonSummaryPage,
+      },
+      {
+        path: 'season-kickoff',
+        component: SeasonKickoffPage,
+      },
+      {
+        path: 'pre-match/:fixtureId',
+        component: PreMatchPage,
+      },
+      {
+        path: 'match-day/:fixtureId',
+        component: MatchDayPage,
+      },
+    ],
   },
   {
     path: '**',

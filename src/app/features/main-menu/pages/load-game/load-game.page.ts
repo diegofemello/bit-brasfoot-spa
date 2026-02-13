@@ -10,6 +10,7 @@ interface SaveGameItem {
   name: string;
   currentSeasonYear: number;
   currentDate: string;
+  club: { id: string } | null;
 }
 
 @Component({
@@ -83,8 +84,14 @@ export class LoadGamePage {
   }
 
   selectSave(saveGameId: string) {
+    const selectedSave = this.saveGames().find((item) => item.id === saveGameId);
     this.gameState.selectSaveGame(saveGameId);
+    if (selectedSave?.club?.id) {
+      this.gameState.selectClub(selectedSave.club.id);
+    } else {
+      this.gameState.clearSelectedClub();
+    }
     this.gameState.clearPendingSaveName();
-    void this.router.navigateByUrl('/dashboard');
+    void this.router.navigateByUrl(selectedSave?.club ? '/dashboard' : '/career');
   }
 }

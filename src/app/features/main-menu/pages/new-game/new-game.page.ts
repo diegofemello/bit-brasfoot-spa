@@ -9,6 +9,12 @@ interface UserResponse {
   managerName: string;
 }
 
+interface SaveGameResponse {
+  id: string;
+  name: string;
+  clubId: string | null;
+}
+
 @Component({
   selector: 'app-new-game-page',
   imports: [CommonModule],
@@ -16,7 +22,7 @@ interface UserResponse {
     <main class="min-h-screen bg-slate-950 text-slate-100">
       <section class="mx-auto flex w-full max-w-2xl flex-col gap-4 px-6 py-16">
         <h1 class="text-3xl font-bold">Novo jogo</h1>
-        <p class="text-slate-300">Cria manager e save inicial sem autenticação.</p>
+        <p class="text-slate-300">Cria manager e inicia carreira sem clube para negociar propostas.</p>
 
         <label class="flex flex-col gap-2">
           <span class="text-sm text-slate-300">Nome do manager</span>
@@ -83,8 +89,21 @@ export class NewGamePage {
     this.apiService.post<UserResponse>('users', { managerName: managerName.trim() }).subscribe({
       next: (user) => {
         this.gameState.selectUser(user.id);
-        this.gameState.setPendingSaveName(saveName.trim());
-        void this.router.navigateByUrl('/select-club');
+        this.apiService
+          .post<SaveGameResponse>('save-games', {
+            name: saveName.trim(),
+          })
+          .subscribe({
+            next: (saveGame) => {
+              this.gameState.selectSaveGame(saveGame.id);
+              this.gameState.clearPendingSaveName();
+              void this.router.navigateByUrl('/career');
+            },
+            error: () => {
+              this.errorMessage.set('Não foi possível criar o save.');
+              this.isLoading.set(false);
+            },
+          });
       },
       error: () => {
         this.errorMessage.set('Não foi possível criar o manager.');

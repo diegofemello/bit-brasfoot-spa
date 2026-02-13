@@ -34,6 +34,11 @@ export class GameStateService {
     this.writeStorage(this.selectedClubStorageKey, clubId);
   }
 
+  clearSelectedClub() {
+    this.selectedClubIdSignal.set(null);
+    this.removeStorage(this.selectedClubStorageKey);
+  }
+
   setPendingSaveName(name: string) {
     this.pendingSaveNameSignal.set(name);
   }

@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, signal } from '@angular/core';
-import { Router, RouterLink } from '@angular/router';
+import { Router } from '@angular/router';
 import { PaginatedResult } from '../../../../core/models/paginated-result.model';
 import { ApiService } from '../../../../core/services/api.service';
 import { GameStateService } from '../../../../core/services/game-state.service';
@@ -40,16 +40,30 @@ interface JobOffer {
   rationale: string;
 }
 
+interface TransferProposalNotification {
+  id: string;
+  type: 'purchase' | 'sale' | 'loan' | 'swap' | 'release';
+  amount: number | null;
+  status: 'pending' | 'accepted' | 'rejected' | 'countered' | 'canceled';
+  player: { name: string };
+  fromClub: { name: string } | null;
+  toClub: { name: string } | null;
+}
+
+interface TransferNews {
+  id: string;
+  headline: string;
+  status: 'accepted' | 'rejected' | 'countered';
+  amount: number | null;
+  updatedAt: string;
+}
+
 @Component({
   selector: 'app-career-page',
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule],
   template: `
-    <main class="min-h-screen bg-slate-950 text-slate-100">
-      <section class="mx-auto flex w-full max-w-6xl flex-col gap-6 px-6 py-10">
-        <div class="flex items-center justify-between">
-          <h1 class="text-2xl font-bold">Carreira do Manager</h1>
-          <a routerLink="/dashboard" class="text-sm text-emerald-300 hover:text-emerald-200">Voltar</a>
-        </div>
+    <section class="flex flex-col gap-6">
+        <h1 class="text-2xl font-bold">Dashboard de Carreira</h1>
 
         @if (feedback()) {
           <p class="text-sm" [class.text-emerald-300]="!feedbackError()" [class.text-rose-300]="feedbackError()">
@@ -77,6 +91,51 @@ interface JobOffer {
             </div>
           </div>
         }
+
+        <div class="grid gap-4 lg:grid-cols-3">
+          <div class="rounded-lg border border-slate-800 bg-slate-900 p-4">
+            <h3 class="mb-2 text-sm font-semibold text-slate-300">Propostas automáticas recebidas</h3>
+            <p class="mb-2 text-xs text-slate-400">Pendentes: {{ incomingAutoProposals().length }}</p>
+            <div class="space-y-2">
+              @for (proposal of incomingAutoProposals().slice(0, 5); track proposal.id) {
+                <div class="rounded bg-slate-950 px-3 py-2 text-xs">
+                  <p class="font-semibold text-slate-200">{{ proposal.player.name }}</p>
+                  <p class="text-slate-400">
+                    {{ proposal.fromClub?.name || 'Clube IA' }} • {{ proposal.type }}
+                    @if (proposal.amount) {
+                      • {{ formatCurrency(proposal.amount) }}
+                    }
+                  </p>
+                </div>
+              }
+              @if (incomingAutoProposals().length === 0) {
+                <p class="text-xs text-slate-500">Sem propostas automáticas para seu clube atual.</p>
+              }
+            </div>
+          </div>
+
+          <div class="rounded-lg border border-slate-800 bg-slate-900 p-4">
+            <h3 class="mb-2 text-sm font-semibold text-slate-300">Notícias de transferências (IA)</h3>
+            <div class="space-y-2">
+              @for (news of transferNews(); track news.id) {
+                <div class="rounded bg-slate-950 px-3 py-2 text-xs">
+                  <p class="text-slate-200">{{ news.headline }}</p>
+                  <p class="text-slate-500">{{ formatDateTime(news.updatedAt) }}</p>
+                </div>
+              }
+              @if (transferNews().length === 0) {
+                <p class="text-xs text-slate-500">Sem notícias recentes de negociações entre clubes da IA.</p>
+              }
+            </div>
+          </div>
+
+          <div class="rounded-lg border border-slate-800 bg-slate-900 p-4">
+            <h3 class="mb-2 text-sm font-semibold text-slate-300">Mercado de empregos</h3>
+            <p class="text-xs text-slate-400">
+              Ofertas atuais: {{ offers().length }}
+            </p>
+          </div>
+        </div>
 
         <div class="grid gap-6 lg:grid-cols-2">
           <div class="rounded-lg border border-slate-800 bg-slate-900 p-4">
@@ -131,7 +190,6 @@ interface JobOffer {
           </button>
         </div>
       </section>
-    </main>
   `,
 })
 export class CareerPage {
@@ -142,6 +200,8 @@ export class CareerPage {
   readonly overview = signal<CareerOverview | null>(null);
   readonly history = signal<CareerHistoryItem[]>([]);
   readonly offers = signal<JobOffer[]>([]);
+  readonly incomingAutoProposals = signal<TransferProposalNotification[]>([]);
+  readonly transferNews = signal<TransferNews[]>([]);
   readonly feedback = signal<string | null>(null);
   readonly feedbackError = signal(false);
 
@@ -157,7 +217,14 @@ export class CareerPage {
 
   private loadAll(saveId: string) {
     this.api.get<CareerOverview>(`career/save/${saveId}`).subscribe({
-      next: (data) => this.overview.set(data),
+      next: (data) => {
+        this.overview.set(data);
+        if (data.currentClub) {
+          this.loadAiNotifications(saveId);
+        } else {
+          this.incomingAutoProposals.set([]);
+        }
+      },
     });
 
     this.api.get<{ history: CareerHistoryItem[] }>(`career/save/${saveId}/history`).subscribe({
@@ -169,6 +236,33 @@ export class CareerPage {
       .subscribe({
         next: (data) => this.offers.set(data.data),
       });
+
+    this.loadTransferNews(saveId);
+  }
+
+  loadAiNotifications(saveGameId: string) {
+    this.api
+      .get<PaginatedResult<TransferProposalNotification>>('transfers/proposals', {
+        saveGameId,
+        scope: 'received',
+        page: 1,
+        limit: 20,
+      })
+      .subscribe({
+        next: (result) => this.incomingAutoProposals.set(result.data),
+      });
+  }
+
+  loadTransferNews(saveGameId: string) {
+    this.api
+      .get<PaginatedResult<TransferNews>>('transfers/ai/news', {
+        saveGameId,
+        page: 1,
+        limit: 8,
+      })
+      .subscribe({
+        next: (result) => this.transferNews.set(result.data),
+      });
   }
 
   acceptOffer(clubId: string) {
@@ -179,6 +273,7 @@ export class CareerPage {
       next: (result) => {
         this.feedback.set(result.message);
         this.feedbackError.set(false);
+        this.gameState.selectClub(clubId);
         this.loadAll(saveId);
       },
       error: () => {
@@ -196,6 +291,7 @@ export class CareerPage {
       next: (result) => {
         this.feedback.set(result.message);
         this.feedbackError.set(false);
+        this.gameState.clearSelectedClub();
         this.loadAll(saveId);
       },
       error: () => {
@@ -209,5 +305,13 @@ export class CareerPage {
     if (value >= 1000000) return `$${(value / 1000000).toFixed(1)}M`;
     if (value >= 1000) return `$${(value / 1000).toFixed(0)}K`;
     return `$${value}`;
+  }
+
+  formatDateTime(value: string): string {
+    const date = new Date(value);
+    if (Number.isNaN(date.getTime())) {
+      return value;
+    }
+    return date.toLocaleString('pt-BR');
   }
 }
