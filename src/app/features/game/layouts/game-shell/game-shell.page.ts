@@ -88,7 +88,7 @@ interface NavGroup {
         </div>
       </aside>
 
-      <header
+      <!-- <header
         class="fixed right-0 top-0 z-20 border-b border-slate-800 bg-slate-900/95 backdrop-blur"
         [style.left.px]="isCollapsed() ? 88 : 280"
       >
@@ -98,9 +98,9 @@ interface NavGroup {
             <p class="text-sm text-slate-400">{{ saveGame()?.currentDate }} • Temporada {{ saveGame()?.currentSeasonYear }}</p>
           }
         </div>
-      </header>
+      </header> -->
 
-      <section class="game-content-host min-h-screen px-6 pb-8 pt-24 transition-all duration-200" [style.marginLeft.px]="isCollapsed() ? 88 : 280">
+      <section class="game-content-host min-h-screen px-6 pb-8 pt-4 transition-all duration-200" [style.marginLeft.px]="isCollapsed() ? 88 : 280">
         <section>
           <router-outlet />
         </section>
@@ -150,7 +150,13 @@ export class GameShellPage {
     },
     {
       title: 'Carreira',
-      items: [{ label: 'Dashboard de Carreira', route: '/career', icon: 'CA' }],
+      items: [
+        { label: 'Dashboard de Carreira', route: '/career', icon: 'CA' },
+        { label: 'Estatísticas da Temporada', route: '/season-stats', icon: 'ET' },
+        { label: 'Rankings de Jogadores', route: '/player-rankings', icon: 'RJ' },
+        { label: 'Histórico de Campeões', route: '/champions-history', icon: 'HC' },
+        { label: 'Recordes', route: '/records', icon: 'RC' },
+      ],
     },
     {
       title: 'Configurações',

@@ -32,7 +32,6 @@ interface MatchPlan {
       <section class="mx-auto flex w-full max-w-5xl flex-col gap-5">
         <div class="flex items-center justify-between">
           <h1 class="text-2xl font-bold">Pré-jogo</h1>
-          <a routerLink="/competitions" class="text-sm text-emerald-300 hover:text-emerald-200">Voltar</a>
         </div>
 
         @if (fixture()) {

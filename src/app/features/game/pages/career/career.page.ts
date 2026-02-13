@@ -58,12 +58,29 @@ interface TransferNews {
   updatedAt: string;
 }
 
+interface ChampionsHistoryResponse {
+  champions: Array<{
+    seasonYear: number;
+    competitionName: string;
+    championClubId: string;
+    championClubName: string;
+  }>;
+  titleRanking: Array<{
+    clubId: string;
+    clubName: string;
+    titles: number;
+  }>;
+}
+
 @Component({
   selector: 'app-career-page',
   imports: [CommonModule],
   template: `
     <section class="flex flex-col gap-6">
-        <h1 class="text-2xl font-bold">Dashboard de Carreira</h1>
+        <div class="rounded-xl border border-slate-800 bg-slate-900/70 px-4 py-3">
+          <h1 class="text-2xl font-bold">Dashboard de Carreira</h1>
+          <p class="text-xs text-slate-400">Histórico do técnico, reputação e mercado de oportunidades.</p>
+        </div>
 
         @if (feedback()) {
           <p class="text-sm" [class.text-emerald-300]="!feedbackError()" [class.text-rose-300]="feedbackError()">
@@ -72,25 +89,80 @@ interface TransferNews {
         }
 
         @if (overview()) {
-          <div class="grid gap-4 rounded-lg border border-slate-800 bg-slate-900 p-4 sm:grid-cols-4">
-            <div>
+          <div class="grid gap-4 rounded-xl border border-slate-800 bg-slate-900 p-4 sm:grid-cols-4">
+            <div class="rounded-lg border border-slate-800 bg-slate-950 px-3 py-2">
               <p class="text-xs text-slate-400">Manager</p>
-              <p class="font-semibold">{{ overview()?.managerName }}</p>
+              <p class="font-semibold text-slate-100">{{ overview()?.managerName }}</p>
             </div>
-            <div>
+            <div class="rounded-lg border border-slate-800 bg-slate-950 px-3 py-2">
               <p class="text-xs text-slate-400">Status</p>
-              <p class="font-semibold">{{ overview()?.status }}</p>
+              <p class="font-semibold text-slate-100">{{ overview()?.status }}</p>
             </div>
-            <div>
+            <div class="rounded-lg border border-slate-800 bg-slate-950 px-3 py-2">
               <p class="text-xs text-slate-400">Reputação</p>
-              <p class="font-semibold">{{ overview()?.reputation }}</p>
+              <p class="font-semibold text-slate-100">{{ overview()?.reputation }}</p>
             </div>
-            <div>
+            <div class="rounded-lg border border-slate-800 bg-slate-950 px-3 py-2">
               <p class="text-xs text-slate-400">Clube atual</p>
-              <p class="font-semibold">{{ overview()?.currentClub?.name || 'Sem clube' }}</p>
+              <p class="font-semibold text-slate-100">{{ overview()?.currentClub?.name || 'Sem clube' }}</p>
             </div>
           </div>
         }
+
+        <div class="grid gap-4 lg:grid-cols-3">
+          <div class="rounded-lg border border-slate-800 bg-slate-900 p-4 lg:col-span-2">
+            <h2 class="mb-3 text-lg font-semibold">Timeline da carreira</h2>
+            <div class="space-y-3">
+              @for (item of history(); track item.clubId + item.fromDate) {
+                <div class="relative rounded bg-slate-950 px-3 py-2 pl-6 text-sm">
+                  <span class="absolute left-2 top-4 h-2 w-2 rounded-full bg-emerald-400"></span>
+                  <p class="font-semibold">{{ item.clubName }}</p>
+                  <p class="text-slate-400">{{ item.countryName }} • {{ item.leagueName }}</p>
+                  <p class="text-xs text-slate-500">
+                    {{ item.role }} • {{ item.fromDate | date:'dd/MM/yyyy' }}
+                    @if (item.toDate) {
+                      até {{ item.toDate | date:'dd/MM/yyyy' }}
+                    } @else {
+                      • Atual
+                    }
+                  </p>
+                </div>
+              }
+              @if (history().length === 0) {
+                <p class="text-sm text-slate-500">Sem histórico disponível.</p>
+              }
+            </div>
+          </div>
+
+          <div class="rounded-lg border border-slate-800 bg-slate-900 p-4">
+            <h2 class="mb-3 text-lg font-semibold">Troféus</h2>
+            <div class="space-y-3 text-sm">
+              <div class="rounded bg-slate-950 px-3 py-2">
+                <p class="text-xs text-slate-400">Títulos em clubes da sua carreira</p>
+                <p class="text-xl font-bold text-amber-300">{{ managedClubsTitlesCount() }}</p>
+              </div>
+
+              <div class="rounded bg-slate-950 px-3 py-2">
+                <p class="text-xs text-slate-400">Clube mais vencedor no save</p>
+                <p class="font-semibold">{{ topChampionClubLabel() }}</p>
+              </div>
+
+              <div>
+                <p class="mb-1 text-xs text-slate-400">Últimos títulos</p>
+                <div class="space-y-1">
+                  @for (title of recentChampions(); track title.seasonYear + title.competitionName + title.championClubId) {
+                    <div class="rounded bg-slate-950 px-2 py-1 text-xs">
+                      {{ title.seasonYear }} • {{ title.competitionName }} — {{ title.championClubName }}
+                    </div>
+                  }
+                  @if (recentChampions().length === 0) {
+                    <p class="text-xs text-slate-500">Nenhum título registrado ainda.</p>
+                  }
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
 
         <div class="grid gap-4 lg:grid-cols-3">
           <div class="rounded-lg border border-slate-800 bg-slate-900 p-4">
@@ -137,23 +209,7 @@ interface TransferNews {
           </div>
         </div>
 
-        <div class="grid gap-6 lg:grid-cols-2">
-          <div class="rounded-lg border border-slate-800 bg-slate-900 p-4">
-            <h2 class="mb-3 text-lg font-semibold">Histórico</h2>
-            <div class="space-y-2 text-sm">
-              @for (item of history(); track item.clubId + item.fromDate) {
-                <div class="rounded bg-slate-950 px-3 py-2">
-                  <p class="font-semibold">{{ item.clubName }}</p>
-                  <p class="text-slate-400">{{ item.countryName }} • {{ item.leagueName }}</p>
-                  <p class="text-xs text-slate-500">{{ item.role }} • desde {{ item.fromDate | date:'dd/MM/yyyy' }}</p>
-                </div>
-              }
-              @if (history().length === 0) {
-                <p class="text-sm text-slate-500">Sem histórico disponível.</p>
-              }
-            </div>
-          </div>
-
+        <div class="grid gap-6 lg:grid-cols-1">
           <div class="rounded-lg border border-slate-800 bg-slate-900 p-4">
             <h2 class="mb-3 text-lg font-semibold">Propostas de emprego</h2>
             <div class="space-y-2 text-sm">
@@ -202,6 +258,8 @@ export class CareerPage {
   readonly offers = signal<JobOffer[]>([]);
   readonly incomingAutoProposals = signal<TransferProposalNotification[]>([]);
   readonly transferNews = signal<TransferNews[]>([]);
+  readonly champions = signal<ChampionsHistoryResponse['champions']>([]);
+  readonly titleRanking = signal<ChampionsHistoryResponse['titleRanking']>([]);
   readonly feedback = signal<string | null>(null);
   readonly feedbackError = signal(false);
 
@@ -238,6 +296,17 @@ export class CareerPage {
       });
 
     this.loadTransferNews(saveId);
+
+    this.api.getSilently<ChampionsHistoryResponse>(`stats/save/${saveId}/champions`).subscribe({
+      next: (data) => {
+        this.champions.set(data.champions);
+        this.titleRanking.set(data.titleRanking);
+      },
+      error: () => {
+        this.champions.set([]);
+        this.titleRanking.set([]);
+      },
+    });
   }
 
   loadAiNotifications(saveGameId: string) {
@@ -313,5 +382,25 @@ export class CareerPage {
       return value;
     }
     return date.toLocaleString('pt-BR');
+  }
+
+  managedClubsTitlesCount() {
+    const historyClubIds = new Set(this.history().map((item) => item.clubId));
+    return this.champions().filter((item) => historyClubIds.has(item.championClubId)).length;
+  }
+
+  topChampionClubLabel() {
+    const top = this.titleRanking()[0];
+    if (!top) {
+      return 'Sem registros';
+    }
+
+    return `${top.clubName} (${top.titles})`;
+  }
+
+  recentChampions() {
+    return [...this.champions()]
+      .sort((a, b) => b.seasonYear - a.seasonYear)
+      .slice(0, 4);
   }
 }

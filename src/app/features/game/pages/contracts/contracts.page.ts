@@ -1,6 +1,5 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, signal } from '@angular/core';
-import { RouterLink } from '@angular/router';
 import { ApiService } from '../../../../core/services/api.service';
 import { GameStateService } from '../../../../core/services/game-state.service';
 
@@ -21,13 +20,15 @@ interface ExpiringContractsResponse {
 
 @Component({
   selector: 'app-contracts-page',
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule],
   template: `
-    <main class="min-h-screen bg-slate-950 px-6 py-8 text-slate-100">
-      <section class="mx-auto flex w-full max-w-6xl flex-col gap-5">
-        <div class="flex items-center justify-between">
-          <h1 class="text-2xl font-bold">Renovação de Contratos</h1>
-          <a routerLink="/dashboard" class="text-sm text-emerald-300 hover:text-emerald-200">Voltar</a>
+    <main class="text-slate-100">
+      <section class="flex flex-col gap-5">
+        <div class="flex items-center justify-between rounded-xl border border-slate-800 bg-slate-900/70 px-4 py-3">
+          <div>
+            <h1 class="text-2xl font-bold">Renovação de Contratos</h1>
+            <p class="text-xs text-slate-400">Monitore vínculos perto do fim e antecipe renovações estratégicas.</p>
+          </div>
         </div>
 
         @if (feedback()) {

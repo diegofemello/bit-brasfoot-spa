@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, signal } from '@angular/core';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { ApiService } from '../../../../core/services/api.service';
 
 interface PlayerStatsResponse {
@@ -26,13 +26,12 @@ interface PlayerStatsResponse {
 
 @Component({
   selector: 'app-player-detail-page',
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule],
   template: `
     <main class="min-h-screen bg-slate-950 text-slate-100">
       <section class="mx-auto flex w-full max-w-4xl flex-col gap-5 px-6 py-10">
         <div class="flex items-center justify-between">
           <h1 class="text-2xl font-bold">Detalhes do Jogador</h1>
-          <a routerLink="/squad" class="text-sm text-emerald-300 hover:text-emerald-200">Voltar</a>
         </div>
 
         @if (stats()) {

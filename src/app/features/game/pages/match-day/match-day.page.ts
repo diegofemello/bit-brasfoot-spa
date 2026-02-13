@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, effect, inject, signal } from '@angular/core';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { ApiService } from '../../../../core/services/api.service';
 import { LiveTactic, MatchLiveSocketService } from '../../../../core/services/match-live-socket.service';
 
@@ -34,13 +34,12 @@ type PlayPhase = 'neutral' | 'attack-home' | 'attack-away' | 'set-piece' | 'goal
 
 @Component({
   selector: 'app-match-day-page',
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule],
   template: `
     <main class="min-h-screen bg-slate-950 px-6 py-8 text-slate-100">
       <section class="mx-auto flex w-full max-w-5xl flex-col gap-5">
         <div class="flex items-center justify-between">
           <h1 class="text-2xl font-bold">Dia de Jogo</h1>
-          <a routerLink="/competitions" class="text-sm text-emerald-300 hover:text-emerald-200">Voltar</a>
         </div>
 
         @if (fixture()) {

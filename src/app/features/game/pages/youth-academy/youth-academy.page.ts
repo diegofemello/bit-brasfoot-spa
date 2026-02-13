@@ -1,6 +1,5 @@
 import { CommonModule } from '@angular/common';
 import { Component, computed, inject, signal } from '@angular/core';
-import { RouterLink } from '@angular/router';
 import { ApiService } from '../../../../core/services/api.service';
 import { GameStateService } from '../../../../core/services/game-state.service';
 
@@ -23,7 +22,7 @@ interface YouthListResponse {
 
 @Component({
   selector: 'app-youth-academy-page',
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule],
   template: `
     <main class="text-slate-100">
       <section class="flex flex-col gap-5">
@@ -32,7 +31,6 @@ interface YouthListResponse {
             <h1 class="text-2xl font-bold">Categorias de Base</h1>
             <p class="text-xs text-slate-400">Gerencie jovens do clube e promova talentos para o elenco principal.</p>
           </div>
-          <a routerLink="/dashboard" class="text-sm text-emerald-300 hover:text-emerald-200">Voltar</a>
         </div>
 
         @if (feedback()) {

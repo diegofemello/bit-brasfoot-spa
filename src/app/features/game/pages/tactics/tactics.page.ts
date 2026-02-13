@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, computed, inject, signal } from '@angular/core';
-import { Router, RouterLink } from '@angular/router';
+import { Router } from '@angular/router';
 import { PaginatedResult } from '../../../../core/models/paginated-result.model';
 import { ApiService } from '../../../../core/services/api.service';
 import { GameStateService } from '../../../../core/services/game-state.service';
@@ -35,7 +35,7 @@ type FormationPreset = {
 
 @Component({
   selector: 'app-tactics-page',
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule],
   template: `
     <main class="text-slate-100">
       <section class="flex flex-col gap-6">
@@ -44,7 +44,6 @@ type FormationPreset = {
             <h1 class="text-2xl font-bold">Editor de Táticas</h1>
             <p class="text-xs text-slate-400">Monte seu onze ideal e ajuste instruções do time.</p>
           </div>
-          <a routerLink="/dashboard" class="rounded-lg border border-slate-700 px-3 py-1.5 text-sm text-emerald-300 hover:border-emerald-400 hover:text-emerald-200">Voltar</a>
         </div>
 
         <div class="grid gap-4 xl:grid-cols-[320px,1fr]">

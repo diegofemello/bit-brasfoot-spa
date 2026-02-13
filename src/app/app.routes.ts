@@ -3,13 +3,17 @@ import { DashboardPage } from './features/game/pages/dashboard/dashboard.page';
 import { GameShellPage } from './features/game/layouts/game-shell/game-shell.page';
 import { CompetitionsPage } from './features/game/pages/competitions/competitions.page';
 import { ContractsPage } from './features/game/pages/contracts/contracts.page';
+import { ChampionsHistoryPage } from './features/game/pages/champions-history/champions-history.page';
 import { CareerPage } from './features/game/pages/career/career.page';
 import { FinancesPage } from './features/game/pages/finances/finances.page';
 import { InfrastructurePage } from './features/game/pages/infrastructure/infrastructure.page';
 import { MatchDayPage } from './features/game/pages/match-day/match-day.page';
 import { PreMatchPage } from './features/game/pages/pre-match/pre-match.page';
+import { PlayerRankingsPage } from './features/game/pages/player-rankings/player-rankings.page';
 import { PlayerDetailPage } from './features/game/pages/player-detail/player-detail.page';
+import { RecordsPage } from './features/game/pages/records/records.page';
 import { SeasonSummaryPage } from './features/game/pages/season-summary/season-summary.page';
+import { SeasonStatsPage } from './features/game/pages/season-stats/season-stats.page';
 import { SeasonKickoffPage } from './features/game/pages/season-kickoff/season-kickoff.page';
 import { SquadPage } from './features/game/pages/squad/squad.page';
 import { TacticsPage } from './features/game/pages/tactics/tactics.page';
@@ -80,6 +84,22 @@ export const routes: Routes = [
       {
         path: 'career',
         component: CareerPage,
+      },
+      {
+        path: 'season-stats',
+        component: SeasonStatsPage,
+      },
+      {
+        path: 'player-rankings',
+        component: PlayerRankingsPage,
+      },
+      {
+        path: 'champions-history',
+        component: ChampionsHistoryPage,
+      },
+      {
+        path: 'records',
+        component: RecordsPage,
       },
       {
         path: 'youth-academy',

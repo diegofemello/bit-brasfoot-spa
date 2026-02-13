@@ -106,11 +106,13 @@ interface AdvanceToNextMatchResponse {
   selector: 'app-competitions-page',
   imports: [CommonModule, RouterLink],
   template: `
-    <main class="min-h-screen bg-slate-950 text-slate-100">
-      <section class="mx-auto flex w-full max-w-7xl flex-col gap-6 px-6 py-10">
-        <div class="flex items-center justify-between">
-          <h1 class="text-2xl font-bold">Competições</h1>
-          <a routerLink="/dashboard" class="text-sm text-emerald-300 hover:text-emerald-200">Voltar</a>
+    <main class="text-slate-100">
+      <section class="flex flex-col gap-6">
+        <div class="flex items-center justify-between rounded-xl border border-slate-800 bg-slate-900/70 px-4 py-3">
+          <div>
+            <h1 class="text-2xl font-bold">Competições</h1>
+            <p class="text-xs text-slate-400">Calendário, tabela, rodadas e avanço da temporada.</p>
+          </div>
         </div>
 
         @if (feedback()) {

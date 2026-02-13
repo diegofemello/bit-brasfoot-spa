@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, computed, inject, signal } from '@angular/core';
-import { Router, RouterLink } from '@angular/router';
+import { Router } from '@angular/router';
 import { PaginatedResult } from '../../../../core/models/paginated-result.model';
 import { ApiService } from '../../../../core/services/api.service';
 import { GameStateService } from '../../../../core/services/game-state.service';
@@ -19,18 +19,18 @@ interface Player {
 
 @Component({
   selector: 'app-squad-page',
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule],
   template: `
-    <main class="min-h-screen bg-slate-950 text-slate-100">
-      <section class="mx-auto flex w-full max-w-7xl flex-col gap-5 px-6 py-10">
-        <div class="flex items-center justify-between gap-3">
-          <h1 class="text-2xl font-bold">Elenco</h1>
-          <a routerLink="/dashboard" class="text-sm text-emerald-300 hover:text-emerald-200"
-            >Voltar</a
-          >
+    <main class="text-slate-100">
+      <section class="flex flex-col gap-5">
+        <div class="flex items-center justify-between rounded-xl border border-slate-800 bg-slate-900/70 px-4 py-3">
+          <div>
+            <h1 class="text-2xl font-bold">Elenco</h1>
+            <p class="text-xs text-slate-400">Gerencie jogadores, filtre por posição e analise o nível médio do grupo.</p>
+          </div>
         </div>
 
-        <div class="grid gap-3 rounded-lg border border-slate-800 bg-slate-900 p-4 sm:grid-cols-4">
+        <div class="grid gap-3 rounded-xl border border-slate-800 bg-slate-900 p-4 sm:grid-cols-4">
           <input
             type="text"
             [value]="searchName()"
@@ -67,7 +67,7 @@ interface Player {
           </button>
         </div>
 
-        <div class="overflow-hidden rounded-lg border border-slate-800 bg-slate-900">
+        <div class="overflow-hidden rounded-xl border border-slate-800 bg-slate-900">
           <table class="min-w-full divide-y divide-slate-800">
             <thead class="bg-slate-950">
               <tr>
