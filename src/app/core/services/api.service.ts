@@ -25,16 +25,40 @@ export class ApiService {
     return this.http.post<T>(`${this.baseUrl}/${path}`, body);
   }
 
+  postSilently<T>(path: string, body: unknown) {
+    return this.http.post<T>(`${this.baseUrl}/${path}`, body, {
+      context: new HttpContext().set(SKIP_ERROR_NOTIFICATION, true),
+    });
+  }
+
   patch<T>(path: string, body: unknown) {
     return this.http.patch<T>(`${this.baseUrl}/${path}`, body);
+  }
+
+  patchSilently<T>(path: string, body: unknown) {
+    return this.http.patch<T>(`${this.baseUrl}/${path}`, body, {
+      context: new HttpContext().set(SKIP_ERROR_NOTIFICATION, true),
+    });
   }
 
   delete<T>(path: string) {
     return this.http.delete<T>(`${this.baseUrl}/${path}`);
   }
 
+  deleteSilently<T>(path: string) {
+    return this.http.delete<T>(`${this.baseUrl}/${path}`, {
+      context: new HttpContext().set(SKIP_ERROR_NOTIFICATION, true),
+    });
+  }
+
   put<T>(path: string, body: unknown) {
     return this.http.put<T>(`${this.baseUrl}/${path}`, body);
+  }
+
+  putSilently<T>(path: string, body: unknown) {
+    return this.http.put<T>(`${this.baseUrl}/${path}`, body, {
+      context: new HttpContext().set(SKIP_ERROR_NOTIFICATION, true),
+    });
   }
 
   private toHttpParams(params?: Record<string, string | number | boolean>) {

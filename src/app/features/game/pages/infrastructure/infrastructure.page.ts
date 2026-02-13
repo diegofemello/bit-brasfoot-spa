@@ -122,7 +122,7 @@ export class InfrastructurePage {
     this.message.set(null);
 
     this.apiService
-      .post<{
+      .postSilently<{
         upgradeCost: number;
         remainingBalance: number;
       }>('infrastructures/upgrade', {
@@ -137,9 +137,26 @@ export class InfrastructurePage {
           this.load();
         },
         error: (err) => {
-          this.error.set(err?.error?.error?.message?.[0] ?? 'Não foi possível realizar upgrade.');
+          this.error.set(this.extractErrorMessage(err, 'Não foi possível realizar upgrade.'));
         },
       });
+  }
+
+  private extractErrorMessage(err: unknown, fallback: string) {
+    const response = (err as { error?: { message?: string | string[]; error?: { message?: string | string[] } } })
+      ?.error;
+    const candidates = [response?.message, response?.error?.message];
+
+    for (const candidate of candidates) {
+      if (Array.isArray(candidate) && candidate.length > 0) {
+        return candidate[0];
+      }
+      if (typeof candidate === 'string' && candidate.length > 0) {
+        return candidate;
+      }
+    }
+
+    return fallback;
   }
 
   formatCurrency(value: number) {
