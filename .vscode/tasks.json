@@ -1,84 +1,41 @@
 {
+  // For more information, visit: https://go.microsoft.com/fwlink/?LinkId=733558
   "version": "2.0.0",
   "tasks": [
     {
-      "label": "Dev: Start Full Stack",
-      "type": "shell",
-      "command": "powershell",
-      "args": [
-        "-ExecutionPolicy",
-        "Bypass",
-        "-File",
-        ".\\scripts\\dev-start.ps1"
-      ],
-      "options": {
-        "cwd": "${workspaceFolder}"
+      "type": "npm",
+      "script": "start",
+      "isBackground": true,
+      "problemMatcher": {
+        "owner": "typescript",
+        "pattern": "$tsc",
+        "background": {
+          "activeOnStart": true,
+          "beginsPattern": {
+            "regexp": "Changes detected"
+          },
+          "endsPattern": {
+            "regexp": "bundle generation (complete|failed)"
+          }
+        }
       }
     },
     {
-      "label": "Dev: Stop Full Stack",
-      "type": "shell",
-      "command": "powershell",
-      "args": [
-        "-ExecutionPolicy",
-        "Bypass",
-        "-File",
-        ".\\scripts\\dev-stop.ps1"
-      ],
-      "options": {
-        "cwd": "${workspaceFolder}"
-      }
-    },
-    {
-      "label": "Smoke: Match Day",
-      "type": "shell",
-      "command": "powershell",
-      "args": [
-        "-ExecutionPolicy",
-        "Bypass",
-        "-File",
-        ".\\scripts\\smoke-matchday.ps1"
-      ],
-      "options": {
-        "cwd": "${workspaceFolder}"
-      }
-    },
-    {
-      "label": "Build: Backend",
-      "type": "shell",
-      "command": "npm",
-      "args": [
-        "run",
-        "build"
-      ],
-      "options": {
-        "cwd": "${workspaceFolder}\\backend"
-      },
-      "group": "build"
-    },
-    {
-      "label": "Build: Frontend",
-      "type": "shell",
-      "command": "npm",
-      "args": [
-        "run",
-        "build"
-      ],
-      "options": {
-        "cwd": "${workspaceFolder}\\frontend"
-      },
-      "group": "build"
-    },
-    {
-      "label": "Build: All",
-      "dependsOn": [
-        "Build: Backend",
-        "Build: Frontend"
-      ],
-      "dependsOrder": "sequence",
-      "group": {
-        "kind": "build",
-        "isDefault": true
+      "type": "npm",
+      "script": "test",
+      "isBackground": true,
+      "problemMatcher": {
+        "owner": "typescript",
+        "pattern": "$tsc",
+        "background": {
+          "activeOnStart": true,
+          "beginsPattern": {
+            "regexp": "Changes detected"
+          },
+          "endsPattern": {
+            "regexp": "bundle generation (complete|failed)"
+          }
+        }
       }
     }
   ]
