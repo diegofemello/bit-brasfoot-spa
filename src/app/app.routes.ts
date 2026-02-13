@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 import { DashboardPage } from './features/game/pages/dashboard/dashboard.page';
 import { CompetitionsPage } from './features/game/pages/competitions/competitions.page';
 import { ContractsPage } from './features/game/pages/contracts/contracts.page';
+import { CareerPage } from './features/game/pages/career/career.page';
 import { FinancesPage } from './features/game/pages/finances/finances.page';
 import { InfrastructurePage } from './features/game/pages/infrastructure/infrastructure.page';
 import { MatchDayPage } from './features/game/pages/match-day/match-day.page';
@@ -75,6 +76,10 @@ export const routes: Routes = [
   {
     path: 'contracts',
     component: ContractsPage,
+  },
+  {
+    path: 'career',
+    component: CareerPage,
   },
   {
     path: 'youth-academy',

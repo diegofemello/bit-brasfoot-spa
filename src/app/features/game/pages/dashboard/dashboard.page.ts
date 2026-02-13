@@ -138,7 +138,7 @@ interface JobOffer {
 
         @if (club()) {
           <div class="flex flex-col gap-6">
-            <div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-10">
+            <div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-11">
               <a
                 routerLink="/squad"
                 class="rounded-lg border border-slate-700 bg-slate-900 px-4 py-3 text-sm font-semibold hover:border-emerald-400"
@@ -180,6 +180,12 @@ interface JobOffer {
                 class="rounded-lg border border-slate-700 bg-slate-900 px-4 py-3 text-sm font-semibold hover:border-emerald-400"
               >
                 Contratos
+              </a>
+              <a
+                routerLink="/career"
+                class="rounded-lg border border-slate-700 bg-slate-900 px-4 py-3 text-sm font-semibold hover:border-emerald-400"
+              >
+                Carreira
               </a>
               <a
                 routerLink="/youth-academy"
@@ -465,7 +471,7 @@ export class DashboardPage {
     this.apiService
       .get<PaginatedResult<TransferProposalNotification>>('transfers/proposals', {
         saveGameId,
-        scope: 'sent',
+        scope: 'received',
         page: 1,
         limit: 20,
       })
